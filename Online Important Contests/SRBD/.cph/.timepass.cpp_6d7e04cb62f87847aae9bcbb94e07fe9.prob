@@ -1,0 +1,1 @@
+{"name":"Local: timepass","url":"d:\\Codeforces Contest\\SRBD\\timepass.cpp","tests":[{"id":1663932188039,"input":"1 2\n1 5\n1 10\n3 2\n2 5\n2 6\n3 2\n-1","output":"7\n5\n-1\n12"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codeforces Contest\\SRBD\\timepass.cpp","group":"local","local":true}
