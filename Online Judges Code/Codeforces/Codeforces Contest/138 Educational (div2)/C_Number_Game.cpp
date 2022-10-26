@@ -46,125 +46,57 @@ using namespace std;
 
 const int mod = 1e9 + 7;
 const int maxn = 100005;
+int n;
+vector<int> ar;
 
-bool wayDeuVai(vector<int> ex, vector<int> sF)
+bool parbi(int k)
 {
-    if (ex.size() > sF.size())
-        return false;
-    return true;
-
-    vector<int> extra, soFar;
-    sort(all(extra));
-    reverse(all(ex));
-    reverse(all(sF));
-    for (int i = 0; i < ex.size(); i++)
+    multiset<int> ms(all(ar));
+    for (int i = 0; i < k; i++)
     {
-        int aroAche = ex[i] - sF[i];
-        if (aroAche > 0)
-            extra.pb(aroAche);
-    }
-    if (extra.size() == 0)
-        return true;
-    for (int i = ex.size(); i < sF.size(); i++)
-        soFar.pb(sF[i]);
+        auto it = ms.upper_bound(k - i);
+        if (it == ms.begin())
+            break;
 
-    return wayDeuVai(extra, soFar);
-}
-
-bool wayDeuVai2(vector<int> ex, vector<int> sF)
-{
-    bool hoiche = true;
-    for (int i = 0; i < ex.size(); i++)
-    {
-        if (ex[i] > 0)
-            hoiche = false;
-    }
-    if (hoiche)
-        return true;
-    for (int i = 0; i < sF.size(); i++)
-    {
-        for (int j = 0; j < ex.size(); j++)
+        ms.erase(--it);
+        if (!ms.empty())
         {
-            vector<int> sF2;
-            for (int k = 0; k < sF.size(); k++)
-                if (k != i)
-                    sF2.pb(sF[k]);
-
-            ex[j] -= sF[i];
-            if (wayDeuVai2(ex, sF2))
-            {
-                return true;
-            }
-            ex[j] += sF[i];
+            int fv = *ms.begin();
+            ms.erase(ms.begin());
+            ms.insert(fv + k - 1);
         }
     }
-
+    if (ms.size() + k == n)
+        return true;
     return false;
 }
 
 void solve(int kase)
 {
-    int n;
+    ar.clear();
+
     cin >> n;
-    vector<int> ar;
+    int totalOne = 0;
     for (int i = 0; i < n; i++)
     {
         int v;
         cin >> v;
-        if (v <= n)
-            ar.pb(v);
+        ar.pb(v);
+        if (ar[i] == 1)
+            totalOne++;
     }
-
     sort(all(ar));
-    vector<int> ar2;
-    for (int i = 0; i < ar.size(); i++)
+
+    int res = 0;
+    for (int i = 1; i <= totalOne; i++)
     {
-        if (ar[i] <= i + 1)
-            ar2.pb(ar[i]);
+        if (parbi(i))
+            res = i;
         else
             break;
     }
-    ar = ar2;
 
-    int k = 0;
-    vector<int> soFar;
-    for (int i = 0; i < (int)ar.size(); i++)
-    {
-        vector<int> extra;
-        bool kicchu_korar_nai = false;
-        for (int j = i; j < (int)ar.size(); j++)
-        {
-            if (ar[i] <= (i + 1))
-            {
-                extra.pb((i + 2 - ar[i]));
-            }
-            if (extra.size() > soFar.size())
-            {
-                kicchu_korar_nai = true;
-                break;
-            }
-        }
-
-        if (!kicchu_korar_nai)
-        {
-            bool hobeKi = wayDeuVai2(extra, soFar);
-            kicchu_korar_nai = (kicchu_korar_nai | (!hobeKi));
-        }
-
-        if (kicchu_korar_nai)
-        {
-            k++;
-        }
-        else
-        {
-            cout << k << endl;
-            return;
-        }
-
-        soFar.pb(i + 1);
-    }
-
-    cout << k << endl;
+    cout << res << endl;
 }
 
 int main()
