@@ -8,7 +8,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long int
+#define ll long long int
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -69,22 +69,49 @@ void solve()
 {
     int n;
     cin >> n;
-    int res = 0;
-    int mxH = 0;
+    int ar[n + 3], div2[n + 3] = {0}, div3[n + 3] = {0};
+    int mx2 = 0, mx3 = 0;
     for (int i = 0; i < n; i++)
     {
-        int h, w;
-        cin >> h >> w;
-        res += (min(h, w));
-        mxH = max(mxH, max(h, w));
+        cin >> ar[i];
+        div2[i] = div3[i] = 0;
+        while (ar[i] % 2 == 0)
+        {
+            div2[i]++;
+            ar[i] /= 2;
+        }
+
+        while (ar[i] % 3 == 0)
+        {
+            div3[i]++;
+            ar[i] /= 3;
+        }
+        if (i == 0)
+        {
+            mx2 = div2[i];
+            mx3 = div3[i];
+        }
+        mx2 = min(mx2, div2[i]);
+        mx3 = min(mx3, div3[i]);
     }
-    cout << res * 2 + mxH * 2 << endl;
+    ll res = (div2[0] - mx2) + div3[0] - mx3;
+    for (int i = 1; i < n; i++)
+    {
+        if (ar[i] != ar[i - 1])
+        {
+            cout << "-1\n";
+            return;
+        }
+        res += ((div2[i] - mx2) + (div3[i] - mx3));
+    }
+
+    cout << res << endl;
 }
 
-int32_t main()
+int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

@@ -8,7 +8,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long int
+#define ll long long int
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -65,26 +65,33 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+vector<int> g[300005];
+
 void solve()
 {
-    int n;
-    cin >> n;
-    int res = 0;
-    int mxH = 0;
-    for (int i = 0; i < n; i++)
+    int n, m;
+    cin >> n >> m;
+    for (int i = 0; i < m; i++)
     {
-        int h, w;
-        cin >> h >> w;
-        res += (min(h, w));
-        mxH = max(mxH, max(h, w));
+        int u, v;
+        cin >> u >> v;
+        g[u].pb(v);
+        g[v].pb(u);
     }
-    cout << res * 2 + mxH * 2 << endl;
+    for (int i = 1; i <= n; i++)
+    {
+        cout << g[i].size() << " ";
+        sort(all(g[i]));
+        for (int j : g[i])
+            cout << j << " ";
+        cout << endl;
+    }
 }
 
-int32_t main()
+int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

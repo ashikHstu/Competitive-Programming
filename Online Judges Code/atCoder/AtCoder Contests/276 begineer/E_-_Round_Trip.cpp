@@ -8,7 +8,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long int
+#define ll long long int
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -57,34 +57,79 @@ inline bool isVowel(char ch)
     return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
 }
 /*----------------------Graph Moves----------------*/
-// const int fx[]={+1,-1,+0,+0};
-// const int fy[]={+0,+0,+1,-1};
-// const int fx[]={+0,+0,+1,-1,-1,+1,-1,+1};   // Kings Move
-// const int fy[]={-1,+1,+0,+0,+1,+1,-1,-1};  // Kings Move
-// const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
-// const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
+const int fx[] = {+1, -1, +0, +0};
+const int fy[] = {+0, +0, +1, -1};
+// const int fx[] = {+0, +0, +1, -1, -1, +1, -1, +1}; // Kings Move
+// const int fy[] = {-1, +1, +0, +0, +1, +1, -1, -1}; // Kings Move
+//  const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
+//  const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
+
+int h, w;
+string st[1000006];
+map<pair<int, int>, int> mp;
+pair<int, int> sp;
+bool curRank = false;
+ll curm = 0;
+bool isValid(int i, int j)
+{
+    if (i < 0 || j < 0 || i >= h || j >= w)
+        return false;
+    if (mp[{i, j}] != 0)
+        return false;
+    if (st[i][j] == '#')
+        return false;
+    return true;
+}
+
+void dfs(int road, pair<int, int> p)
+{
+    //  cout << "road : " << road << endl;
+    mp[p]++;
+    for (int i = 0; i < 4; i++)
+    {
+        int nx = p.first + fx[i];
+        int ny = p.second + fy[i];
+
+        if (isValid(nx, ny))
+        {
+            mp[{nx, ny}]++;
+
+            dfs(road + 1, {nx, ny});
+        }
+        else if (nx >= 0 && nx < h && ny >= 0 && ny < w)
+        {
+            if (road >= 3 && st[nx][ny] == 'S')
+                curRank = true;
+        }
+    }
+}
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int res = 0;
-    int mxH = 0;
-    for (int i = 0; i < n; i++)
+    cin >> h >> w;
+    pair<int, int> s;
+    for (int i = 0; i < h; i++)
     {
-        int h, w;
-        cin >> h >> w;
-        res += (min(h, w));
-        mxH = max(mxH, max(h, w));
+        cin >> st[i];
+        for (int j = 0; j < w; j++)
+        {
+            if (st[i][j] == 'S')
+                s = {i, j};
+        }
     }
-    cout << res * 2 + mxH * 2 << endl;
+    sp = s;
+    dfs(0, s);
+    if (curRank)
+        cout << "Yes\n";
+    else
+        cout << "No\n";
 }
 
-int32_t main()
+int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

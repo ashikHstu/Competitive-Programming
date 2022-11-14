@@ -8,7 +8,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long int
+#define ll long long int
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -67,24 +67,23 @@ inline bool isVowel(char ch)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int res = 0;
-    int mxH = 0;
-    for (int i = 0; i < n; i++)
+    string st;
+    cin >> st;
+    for (int i = st.size() - 1; i >= 0; i--)
     {
-        int h, w;
-        cin >> h >> w;
-        res += (min(h, w));
-        mxH = max(mxH, max(h, w));
+        if (st[i] == 'a')
+        {
+            cout << i + 1 << endl;
+            return;
+        }
     }
-    cout << res * 2 + mxH * 2 << endl;
+    cout << "-1\n";
 }
 
-int32_t main()
+int main()
 {
     int tc = 1;
-    cin >> tc;
+    //  cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();
