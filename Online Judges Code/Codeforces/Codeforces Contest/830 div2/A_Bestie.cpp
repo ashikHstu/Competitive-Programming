@@ -67,6 +67,36 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    int ar[n + 2];
+    int gc = 1;
+    for (int i = 0; i < n; i++)
+    {
+
+        cin >> ar[i];
+        if (i == 0)
+            gc = ar[i];
+        else
+            gc = gcd(gc, ar[i]);
+    }
+    if (gc == 1)
+    {
+        cout << "0\n";
+        return;
+    }
+    if (gcd(gc, n) == 1)
+    {
+        cout << "1\n";
+        return;
+    }
+    if (gcd(gc, n - 1) == 1)
+    {
+        cout << "2\n";
+        return;
+    }
+
+    cout << "3\n";
 }
 
 int main()

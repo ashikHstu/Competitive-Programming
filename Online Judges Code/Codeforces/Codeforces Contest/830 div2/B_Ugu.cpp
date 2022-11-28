@@ -67,6 +67,55 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    string st;
+    cin >> st;
+    vector<pair<char, int>> vec;
+    char last = '0';
+    int ct = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (i == 0)
+        {
+            last = st[i];
+
+            ct = 1;
+        }
+
+        else if (last == st[i])
+        {
+            ct++;
+        }
+        else
+        {
+            // cout << "inserting at pos " << i << " : " << ct << endl;
+            vec.pb({last, ct});
+            last = st[i];
+            ct = 1;
+        }
+    }
+    // cout << "prev size : " << vec.size() << endl;
+    vec.pb({last, ct});
+
+    // cout << "not ok \n";
+    // return;
+    int len = vec.size();
+    if (len == 1)
+    {
+        cout << "0\n";
+        return;
+    }
+    int r = len;
+    // cout << "len : " << len << endl;
+    if (vec[0].first == '0')
+    {
+        r = len - 2;
+    }
+    else
+        r = len - 1;
+
+    cout << r << endl;
 }
 
 int main()

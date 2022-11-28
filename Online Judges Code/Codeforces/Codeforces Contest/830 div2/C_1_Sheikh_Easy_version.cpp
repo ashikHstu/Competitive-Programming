@@ -67,6 +67,46 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n, q;
+    cin >> n >> q;
+    int ar[n + 2];
+    ll rangeXor[n + 2], rangeSum[n + 2];
+    rangeSum[0] = rangeXor[0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> ar[i];
+        rangeSum[i] = rangeSum[i - 1] + ar[i];
+        rangeXor[i] = (rangeXor[i - 1] ^ ar[i]);
+    }
+
+    int L, R;
+    cin >> L >> R;
+    ll res = rangeSum[n] - rangeXor[n];
+    pair<int, int> resP = {1, n};
+
+    for (int i = 1; i <= n; i++)
+    {
+        int lf = i, rght = n;
+        while (lf <= rght)
+        {
+            int mid = (lf + rght) / 2;
+            ll r2 = rangeSum[mid] - rangeSum[i - 1] - (rangeXor[mid] ^ rangeXor[i - 1]);
+            if (r2 < res)
+            {
+                lf = mid + 1;
+            }
+            else
+            {
+                if (mid - i < (resP.second - resP.first))
+                {
+                    resP = {i, mid};
+                }
+                rght = mid - 1;
+            }
+        }
+    }
+
+    cout << resP.first << " " << resP.second << endl;
 }
 
 int main()
