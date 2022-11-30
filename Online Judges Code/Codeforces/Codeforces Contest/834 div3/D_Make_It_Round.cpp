@@ -67,6 +67,63 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n, m;
+    cin >> n >> m;
+    int tn = 0, fn = 0, tm = 0, fm = 0;
+    int nn = n, mm = m;
+    while (nn % 2 == 0)
+    {
+        tn++;
+        nn /= 2;
+    }
+
+    while (nn % 5 == 0)
+    {
+        fn++;
+        nn /= 5;
+    }
+
+    ll totalTaken = 1;
+    while (tn < fn && totalTaken * 2 <= m)
+    {
+        totalTaken *= 2;
+        tn++;
+    }
+    while (tn > fn && totalTaken * 5 <= m)
+    {
+        totalTaken *= 5;
+        fn++;
+    }
+
+    while (totalTaken * 10 <= m)
+    {
+        totalTaken *= 10;
+        tn++;
+        fn++;
+    }
+
+    ll exx = m / totalTaken;
+    cout << exx * totalTaken * n << endl;
+    return;
+
+    ll multi = 1;
+    ll niteiHobe = min(tn + tm, fn + fm);
+    while (tn < niteiHobe)
+    {
+        multi *= 2;
+        tn++;
+    }
+    while (fn < niteiHobe)
+    {
+        multi *= 5;
+        fn++;
+    }
+
+    ll ex = m / multi;
+
+    cout << "Multi res : " << multi * n << endl;
+    ll res = ex * multi * n;
+    cout << res << endl;
 }
 
 int main()

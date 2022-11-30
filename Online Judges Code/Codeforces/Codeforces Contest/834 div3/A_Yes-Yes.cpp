@@ -67,6 +67,26 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    string st;
+    cin >> st;
+    string r[3];
+    r[0].pb('e');
+    r[0].pb('s');
+    r[1].pb('s');
+    for (int i = 0; i < 50; i++)
+    {
+        r[0] += "Yes";
+        r[1] += "Yes";
+        r[2] += "Yes";
+    }
+
+    int l = st.size();
+    if (r[0].substr(0, l) == st || r[1].substr(0, l) == st || r[2].substr(0, l) == st)
+    {
+        cout << "YES\n";
+        return;
+    }
+    cout << "NO\n";
 }
 
 int main()

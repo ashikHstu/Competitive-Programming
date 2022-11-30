@@ -67,6 +67,44 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n, s;
+    cin >> n >> s;
+    int ar[n + 3];
+    for (int i = 0; i < n; i++)
+        cin >> ar[i];
+
+    int ct[5000] = {0};
+    int mx = -1;
+    for (int i = 0; i < n; i++)
+    {
+        mx = max(ar[i], mx);
+        ct[ar[i]]++;
+    }
+    for (int i = 1; i < 1000; i++)
+    {
+        if (ct[i] == 0 && i <= s)
+        {
+            ct[i]++;
+            s -= i;
+        }
+        else if (s == 0 && i > mx)
+        {
+            cout << "YES\n";
+            return;
+        }
+        else if (i < mx && ct[i] == 0)
+        {
+            cout << "NO\n";
+            return;
+        }
+    }
+
+    if (s > 0)
+    {
+        cout << "NO\n";
+    }
+    else
+        cout << "YES\n";
 }
 
 int main()
