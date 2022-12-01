@@ -65,70 +65,47 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+int n, p;
+
+ll mxR(vector<int> ar, vector<int> operations)
+{
+
+    ll curP = p;
+    for (int i = 0; i < n; i++)
+    {
+        while (curP <= ar[i] && operations.size() > 0)
+        {
+            curP *= operations[operations.size() - 1];
+            operations.pop_back();
+        }
+        if (curP > ar[i])
+        {
+            curP += (ar[i] / 2);
+        }
+        else
+        {
+            return i;
+        }
+    }
+    return n;
+}
+
 void solve()
 {
-    ll n, p;
+
     cin >> n >> p;
     vector<int> ar(n);
+
     for (int i = 0; i < n; i++)
     {
         cin >> ar[i];
     }
-    int two = 2, three = 1;
     sort(all(ar));
-    int res = 0;
-    for (int i = 0; i < n; i++)
-    {
 
-        if (p > ar[i])
-        {
-            p += (ar[i] / 2);
-            res++;
-        }
-        else
-        {
-            if (three == 1 && p * 2 <= ar[i] && p * 3 > ar[i])
-            {
-                p *= 3;
-                three--;
-            }
-            if (p <= ar[i] && two > 0)
-            {
-                two--;
-                p *= 2;
-            }
-            if (p <= ar[i] && two > 0)
-            {
-                two--;
-                p *= 2;
-            }
-
-            if (p <= ar[i] && three > 0)
-            {
-                three--;
-                p *= 3;
-            }
-
-            if (p > ar[i])
-            {
-                if (i == 3)
-                {
-                    // cout << "p2, p3 , p : " << two << ", " << three << ", " << p << endl;
-                }
-                p += (ar[i] / 2);
-                res++;
-            }
-            else
-            {
-                cout << "p2, p3 , p : " << two << ", " << three << ", " << p << endl;
-                cout << res << endl;
-                return;
-            }
-        }
-    }
-
-    // cout << "Last e?" << endl;
+    vector<int> op1 = {2, 2, 3}, op2 = {2, 3, 2}, op3 = {3, 2, 2};
+    ll res = max3(mxR(ar, op1), mxR(ar, op2), mxR(ar, op3));
     cout << res << endl;
+    return;
 }
 
 int main()
