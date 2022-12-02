@@ -64,82 +64,45 @@ inline bool isVowel(char ch)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
-int nd = -1;
-
-bool check(set<int> digits, int l, int r, bool useND)
-{
-    for (int i = l; i <= r; i++)
-    {
-        if (useND && i == nd)
-            continue;
-
-        if (!digits.count(i))
-            return false;
-    }
-
-    return true;
-}
 
 void solve()
 {
-    int n, p;
-    cin >> n >> p;
-    vector<int> ar(n + 1);
-    set<int> digits;
-    for (int i = 1; i <= n; i++)
+    int w, h, n;
+    cin >> w >> h >> n;
+    vector<ll> hr, vr;
+    hr.pb(0);
+    hr.pb(w + 1);
+    vr.pb(0);
+    vr.pb(h + 1);
+    for (int i = 0; i < n; i++)
     {
-        cin >> ar[i];
-        digits.insert(ar[i]);
-    }
-    if (digits.size() == p)
-    {
-        cout << "0\n";
-        return;
-    }
-
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (ar[i] < p - 1)
-        {
-            nd = ar[i] + 1;
-            break;
-        }
+        int vv, rr;
+        cin >> vv >> rr;
+        hr.pb(vv);
+        vr.pb(rr);
     }
 
-    int l = 0, r = p - 1;
-    int mv = ar[n];
-
-    while (l < r)
+    sort(all(hr));
+    sort(all(vr));
+    ll res = 0;
+    ll r1 = 0, r2 = 0;
+    for (int i = 1; i < hr.size(); i++)
     {
-        int mid = (l + r) / 2;
-        bool ok = false;
-
-        if (mv + mid >= p)
-        {
-            if (check(digits, mv + mid + 1 - p, mv - 1, true))
-            {
-                ok = true;
-            }
-        }
-        else
-        {
-            if (check(digits, 0, mv - 1, false) && check(digits, mv + mid + 1, p - 1, false))
-                ok = true;
-        }
-
-        if (ok)
-            r = mid;
-        else
-            l = mid + 1;
+        r1 = max(r1, hr[i] - hr[i - 1] - 1);
     }
 
-    cout << l << endl;
+    for (int i = 1; i < vr.size(); i++)
+    {
+        r2 = max(r2, vr[i] - vr[i - 1] - 1);
+    }
+
+    cout << r1 * r2 << endl;
 }
 
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();
