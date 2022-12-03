@@ -67,6 +67,57 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    vector<int> b(n / 2), ar(n);
+    vector<bool> used(n + 1, false);
+    set<int> unused;
+    for (int i = 0; i < n / 2; i++)
+    {
+        cin >> b[i];
+        ar[i * 2 + 1] = b[i];
+        used[b[i]] = true;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (used[i] == false)
+        {
+            unused.insert(i);
+        }
+    }
+
+    if (unused.size() != n / 2)
+    {
+        cout << "-1\n";
+        return;
+    }
+
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
+        auto lagbe = unused.upper_bound(b[i]);
+        if (lagbe == unused.begin())
+        {
+            cout << "-1\n";
+            return;
+        }
+
+        lagbe--;
+        if (*lagbe < b[i])
+        {
+            ar[i * 2] = *lagbe;
+            unused.erase(lagbe);
+        }
+        else
+        {
+            cout << "-1\n";
+            return;
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+        cout << ar[i] << " ";
+    cout << endl;
 }
 
 int main()
