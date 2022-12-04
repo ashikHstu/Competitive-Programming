@@ -65,36 +65,42 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+int nxt[500015][11];
 void solve()
 {
-    ll n;
-    cin >> n;
-    ll ar[n + 3];
-    for (int i = 0; i < n; i++)
-        cin >> ar[i];
-    sort(ar, ar + n);
+    string s;
+    int k;
+    cin >> s >> k;
+    int n = s.size();
+    string res;
 
-    if (ar[0] == ar[n - 1])
+    for (int i = 0; i < 10; i++)
+        nxt[n][i] = n;
+
+    for (int i = n - 1; i >= 0; i--)
     {
-        cout << n / 2 << endl;
-        return;
+        for (int d = 0; d <= 9; d++)
+        {
+            nxt[i][d] = nxt[i + 1][d];
+        }
+        nxt[i][s[i] - '0'] = i;
     }
-    ll hn = n / 2;
-    ll hh = hn;
-    ll ind2 = hn;
-    hn--;
-    while (ar[hn] == ar[ind2] && ind2 < n)
-        ind2++;
-    ll r1 = ind2 * (n - ind2);
-    ind2 = hh - 1;
-    while (ar[hh] == ar[ind2] && ind2 >= 0)
-        ind2--;
 
-    ind2++;
-    ll r2 = ind2 * (n - ind2);
-
-    // cout << r1 << " " << r2 << endl;
-    cout << max(r1, r2) << endl;
+    int m = n - k;
+    for (int i = 0, cur = 0; i < m; i++)
+    {
+        for (int d = (i == 0 ? 1 : 0); d <= 9; d++)
+        {
+            int req = nxt[cur][d] - cur;
+            if (req > k)
+                continue;
+            k -= req;
+            res.pb('0' + d);
+            cur = nxt[cur][d] + 1;
+            break;
+        }
+    }
+    cout << res << endl;
 }
 
 int main()
