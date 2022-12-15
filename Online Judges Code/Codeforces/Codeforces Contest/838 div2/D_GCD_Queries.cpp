@@ -48,9 +48,18 @@ using namespace std;
 /**        End of Ex Storing                */
 
 /**------- Char Chk----------*/
-inline bool isLower(char ch) { return (ch >= 'a' && ch <= 'z'); }
-inline bool isUpper(char ch) { return (ch >= 'A' && ch <= 'Z'); }
-inline bool isDigit(char ch) { return (ch >= '0' && ch <= '9'); }
+inline bool isLower(char ch)
+{
+    return (ch >= 'a' && ch <= 'z');
+}
+inline bool isUpper(char ch)
+{
+    return (ch >= 'A' && ch <= 'Z');
+}
+inline bool isDigit(char ch)
+{
+    return (ch >= '0' && ch <= '9');
+}
 inline bool isVowel(char ch)
 {
     ch = tolower(ch);
@@ -65,34 +74,47 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+map<pair<int, int>, int> mp;
+
+int ask(int i, int j)
+{
+    if (mp.find({i, j}) != mp.end())
+        return mp[{i, j}];
+    cout << "? " << i << " " << j << endl;
+    cout.flush();
+    int v;
+    cin >> v;
+    mp[{i, j}] = v;
+    return v;
+}
+
+void printResult(int i, int j)
+{
+    cout << "! " << i << " " << j << endl;
+    cout.flush();
+    int finalRes;
+    cin >> finalRes;
+}
+
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    mp.clear();
+    int n;
+    cin >> n;
+    pair<int, int> p = {1, 2};
+    for (int i = 3; i <= n; i++)
     {
-        if (i != x)
-        {
-            vec.pb(i);
-        }
+        int g1 = ask(p.first, p.second);
+        int g2 = ask(p.first, i);
+        int g3 = ask(p.second, i);
+        if (g1 >= g2 && g1 >= g3)
+            p = {p.first, p.second};
+        else if (g2 >= g1 && g2 >= g3)
+            p = {p.first, i};
         else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
-        }
+            p = {p.second, i};
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+    printResult(p.first, p.second);
 }
 
 int main()

@@ -67,32 +67,19 @@ inline bool isVowel(char ch)
 
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    int a, b, c;
+    cin >> a >> b >> c;
+    if (a == b && a == c)
     {
-        if (i != x)
-        {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
-        }
+        cout << "Yes\n";
+        return;
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+    if (b + c + 1 >= a)
+    {
+        cout << "No\n";
+        return;
+    }
+    cout << "Yes\n";
 }
 
 int main()

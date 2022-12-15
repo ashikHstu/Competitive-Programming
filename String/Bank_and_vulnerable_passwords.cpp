@@ -65,40 +65,121 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+class Vertex
+{
+public:
+    int string_ends;
+    vector<int> next;
+    Vertex(int k)
+    {
+        string_ends = 0;
+        next.resize(k, -1);
+    }
+};
+
+class Trie
+{
+public:
+    int K;
+    vector<Vertex> nodes;
+    Trie(int k)
+    {
+        K = k;
+        nodes.push_back(Vertex(k));
+    }
+
+    void add(string s)
+    {
+        int cur = 0;
+        for (auto c : s)
+        {
+            if (nodes[cur].next[c - 'a'] == -1)
+            {
+                nodes[cur].next[c - 'a'] = nodes.size();
+                nodes.push_back(Vertex(K));
+            }
+            cur = nodes[cur].next[c - 'a'];
+        }
+        nodes[cur].string_ends++;
+    }
+
+    bool bad(int x)
+    {
+        if (nodes[x].string_ends >= 2)
+            return true;
+
+        for (int i = 0; i < K; i++)
+        {
+            if (nodes[x].next[i] != -1)
+            {
+                if (nodes[x].string_ends)
+                    return true;
+                if (bad(nodes[x].next[i]))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    void print(int x, vector<bool> &lst, string &s)
+    {
+        for (int i = 0; i < ((int)lst.size()) - 1; i++)
+        {
+            if (lst[i])
+                cout << " ";
+            else
+                cout << "| ";
+        }
+        if (!lst.empty())
+            cout << "|--";
+        cout << x << " " << s << " " << nodes[x].string_ends << endl;
+        int mx = -1;
+
+        for (int i = 0; i < K; i++)
+        {
+            if (nodes[x].next[i] != -1)
+            {
+                mx = i;
+            }
+        }
+        lst.push_back(false);
+        for (int i = 0; i < K; i++)
+        {
+            if (nodes[x].next[i] != -1)
+            {
+                s.push_back('a' + i);
+                if (i == mx)
+                    lst.back() = true;
+                print(nodes[x].next[i], lst, s);
+                s.pop_back();
+            }
+        }
+        lst.pop_back();
+        return;
+    }
+};
+
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    Trie t(26);
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
     {
-        if (i != x)
-        {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
-        }
+        string st;
+        cin >> st;
+        t.add(st);
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+    if (t.bad(0))
+        cout << "vulnerable\n";
+    else
+        cout << "non vulnerable\n";
 }
 
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

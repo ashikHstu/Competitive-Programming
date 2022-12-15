@@ -1,0 +1,1 @@
+{"name":"Local: Trie","url":"h:\\GitHub WorkPlace\\CP Codes\\String\\Trie.cpp","tests":[{"id":1670790387397,"input":"4\nabcc\nabc\nabbc\nbacde","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"h:\\GitHub WorkPlace\\CP Codes\\String\\Trie.cpp","group":"local","local":true}

@@ -65,34 +65,56 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-void solve()
+#define sz 2000006
+int failure[sz];
+int mainSize;
+void build_failure(string patern)
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    failure[0] = failure[1] = 0;
+    mainSize = patern.size();
+    for (int i = 2; i <= patern.size(); i++)
     {
-        if (i != x)
+        int j = failure[i - 1];
+        while (true)
         {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
+            if (patern[j] == patern[i - 1])
             {
-                cout << "-1\n";
-                return;
+                failure[i] = j + 1;
+                break;
             }
-            vec.pb(n);
+            else if (j == 0)
+            {
+                failure[i] = 0;
+                break;
+            }
+            else
+            {
+                j = failure[j];
+            }
         }
     }
-    vec.pb(1);
+}
 
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+int kmp(string text, string patern)
+{
+    build_failure(patern + "#" + text);
+    int res = 0;
+    for (int i = 1; i <= mainSize; i++)
+    {
+        if (failure[i] == patern.size())
+            res++;
+    }
+    return res;
+}
+
+void solve(int kase)
+{
+    string text, patern;
+    cin >> text;
+    cin >> patern;
+
+    int res = kmp(text, patern);
+    cout << "Case " << kase << ": " << res << endl;
 }
 
 int main()
@@ -101,7 +123,7 @@ int main()
     cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
-        solve();
+        solve(i);
     }
 
     return 0;

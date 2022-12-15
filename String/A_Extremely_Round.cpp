@@ -65,38 +65,45 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-void solve()
+int xtr[10000007];
+
+bool isX(int v)
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    int nz = 0;
+
+    while (v != 0)
     {
-        if (i != x)
+        int ld = v % 10;
+        v /= 10;
+        if (ld != 0)
+            nz++;
+    }
+    if (nz == 1)
+        return true;
+    return false;
+}
+void preCal()
+{
+    for (int i = 1; i < 10000000; i++)
+    {
+        xtr[i] = xtr[i - 1];
+        if (isX(i))
         {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
+            xtr[i]++;
         }
     }
-    vec.pb(1);
+}
 
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+void solve()
+{
+    int v;
+    cin >> v;
+    cout << xtr[v] << endl;
 }
 
 int main()
 {
+    preCal();
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)

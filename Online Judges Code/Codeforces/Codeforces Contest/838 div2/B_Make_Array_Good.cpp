@@ -65,34 +65,40 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+unsigned int NP2(unsigned int n)
+{
+    unsigned count = 0;
+
+    if (n && !(n & (n - 1)))
+        return n;
+
+    while (n != 0)
+    {
+        n >>= 1;
+        count += 1;
+    }
+
+    return 1 << count;
+}
+
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    int n;
+    cin >> n;
+    int ar[n + 3];
+    vector<int> Add;
+    for (int i = 0; i < n; i++)
     {
-        if (i != x)
-        {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
-        }
+        cin >> ar[i];
+        ll nextP = NP2(ar[i]);
+        ll ex = nextP - ar[i];
+        Add.pb(ex);
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+    cout << n << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << i + 1 << " " << Add[i] << endl;
+    }
 }
 
 int main()

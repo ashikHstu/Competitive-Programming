@@ -65,33 +65,17 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-void solve()
+void solve(int kase)
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+    string st;
+    cin >> st;
+    cout << "Case " << kase << ": ";
+    for (int i = 0; i < st.size(); i++)
     {
-        if (i != x)
-        {
-            vec.pb(i);
-        }
-        else
-        {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
-        }
+        if (i == 4 && st[i] != 's')
+            cout << "s";
+        cout << st[i];
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
     cout << endl;
 }
 
@@ -101,7 +85,7 @@ int main()
     cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
-        solve();
+        solve(i);
     }
 
     return 0;

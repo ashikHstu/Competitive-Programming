@@ -65,34 +65,112 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+#define isOn(S, j) (S & (1 << j))
+#define setBit(S, j) (S |= (1 << j))
+#define clearBit(S, j) (S &= ~(1 << j)) // turn off j'th bit
+#define toggleBit(S, j) (S ^= (1 << j))
+#define lowBit(S) (S & (-S))
+#define setAll(S, n) (S = (1 << n) - 1)
+
+#define modulo(S, N) ((S) & (N - 1)) // returns S % N, where N is a power of 2
+#define isPowerOfTwo(S) (!(S & (S - 1)))
+#define nearestPowerOfTwo(S) ((int)pow(2.0, (int)((log((double)S) / log(2.0)) + 0.5)))
+#define turnOffLastBit(S) ((S) & (S - 1)) // turn off the last on bit
+#define turnOnLastZero(S) ((S) | (S + 1))
+#define turnOffLastConsecutiveBits(S) ((S) & (S + 1))
+#define turnOnLastConsecutiveZeroes(S) ((S) | (S - 1))
+
+#define blz(a) __builtin_clz(a)              // Number of leading zero
+#define btz(a) __builtin_ctz(a)              // number of trailing zero
+#define totalSetBit(a) __builtin_popcount(a) // number of set bit
+#define parity(a) __builtin_parity(a)        // if odd number of set bit > 1, if even > 0
+int bitTaken[33];
+#define sz 500005
+int n;
+int ar[sz];
+int dp[sz];
+vector<int> allState[sz];
+int findRes(int cur, vector<int> dichi)
+{
+    bool ok = true;
+    for (int i = 0; i < 30; i++)
+    {
+        if (bitTaken[i] != dichi[i])
+            ok = false;
+    }
+    if (ok)
+        return 0;
+    if (dp[cur] != -1)
+    {
+        // bool yesOk = true;
+        // for (int i = 0; i <= 30; i++)
+        // {
+        //     if (allState[cur][i] != dichi[i])
+        //     {
+        //         yesOk = false;
+        //         break;
+        //     }
+        // }
+        // if (yesOk)
+        return dp[cur];
+    }
+
+    if (cur == n)
+        return 99999999;
+    int r1 = findRes(cur + 1, dichi);
+    vector<int> lagbe(dichi);
+    for (int i = 0; i <= 30; i++)
+    {
+        if (isOn(ar[cur], i))
+            dichi[i] = 1;
+    }
+    int r2 = 1 + findRes(cur + 1, dichi);
+    if (r1 < r2)
+    {
+        for (int i = 0; i <= 30; i++)
+            allState[cur].pb(lagbe[i]);
+    }
+    else
+    {
+        for (int i = 0; i <= 30; i++)
+            allState[cur].pb(dichi[i]);
+    }
+    return dp[cur] = min(r1, r2);
+}
+
 void solve()
 {
-    int n, x;
-    cin >> n >> x;
-    vector<int> vec;
-    vec.pb(x);
-    int missingP = -1, missingV = -1;
-    for (int i = 2; i < n; i++)
+
+    cin >> n;
+
+    for (int i = 0; i < n; i++)
+        cin >> ar[i];
+
+    vector<int> bitPosition[34];
+    mem(bitTaken, 0);
+    mem(dp, -1);
+    for (int i = 30; i >= 0; i--)
     {
-        if (i != x)
+        for (int j = 0; j < n; j++)
         {
-            vec.pb(i);
+            if (isOn(ar[j], i))
+                bitPosition[i].push_back(j);
         }
+        if (bitPosition[i].size() == 1)
+        {
+            cout << "-1\n";
+            return;
+        }
+        if (bitPosition[i].size() == 0)
+            continue;
         else
         {
-            if (n % i != 0)
-            {
-                cout << "-1\n";
-                return;
-            }
-            vec.pb(n);
+            bitTaken[i] = 1;
         }
     }
-    vec.pb(1);
-
-    for (int v : vec)
-        cout << v << " ";
-    cout << endl;
+    vector<int> dichi(33, 0);
+    int res = findRes(0, dichi);
+    cout << n - res << endl;
 }
 
 int main()
