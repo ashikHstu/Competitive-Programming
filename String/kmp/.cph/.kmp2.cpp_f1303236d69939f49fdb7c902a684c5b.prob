@@ -1,0 +1,1 @@
+{"name":"Local: kmp2","url":"h:\\GitHub WorkPlace\\CP Codes\\String\\kmp\\kmp2.cpp","tests":[{"id":1671708723639,"input":"2\nabcdefghABCDEFGH\n2\nabc\nabAB\nxyz\n1\nxyz","output":"y\nn\ny"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"h:\\GitHub WorkPlace\\CP Codes\\String\\kmp\\kmp2.cpp","group":"local","local":true}
