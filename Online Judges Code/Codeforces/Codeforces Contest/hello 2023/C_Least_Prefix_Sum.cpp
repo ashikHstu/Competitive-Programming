@@ -73,35 +73,45 @@ void solve()
     ll ar[n + 3];
     ll sum = 0;
     ll middle;
+    int prefix[n + 3];
+
     for (int i = 0; i < n; i++)
-        cin >> ar[i];
-    middle = ar[m - 1];
-    if (middle > 0)
     {
-        res++;
-        middle = (-1) * middle;
+        cin >> ar[i];
+        if (i == m - 1 && ar[i] > 0 && m != 1)
+        {
+            ar[i] = -ar[i];
+            res++;
+        }
+        if (i == 0)
+        {
+            prefix[i] = ar[i];
+        }
+        else
+            prefix[i] = prefix[i - 1] + ar[i];
     }
+    middle = prefix[m - 1];
+
     priority_queue<int> pq;
     sum = middle;
     for (int i = m - 2; i >= 0; i--)
     {
-        sum += ar[i];
+
         if (ar[i] > 0)
         {
             int pv = ar[i];
             pq.push(pv);
         }
-        while (sum > middle && !pq.empty())
+        while (prefix[i] < middle && !pq.empty())
         {
             ll t = pq.top();
-            sum -= t;
-            sum -= t;
+            middle -= (2 * t);
             res++;
             pq.pop();
         }
     }
 
-    cout << "preRes : " << res << endl;
+    // cout << "preRes : " << res << endl;
     while (!pq.empty())
         pq.pop();
     sum = middle;
