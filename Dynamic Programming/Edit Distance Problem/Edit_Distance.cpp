@@ -1,4 +1,4 @@
-/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of God, the Most Gracious, the Most Merciful.)       */
+/**       (In the name of God, the Most Gracious, the Most Merciful.)       */
 /*
       Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
       Name        : Ashikur Rahman Bhuyain (Asif)
@@ -90,13 +90,13 @@ void solve()
 {
     memset(dp, -1, sizeof(dp));
     cin >> st1 >> st2;
-    cout << findEditDistance3(st1.size(), st2.size());
+    cout << findEditDistance3(st1.size(), st2.size()) << endl;
 }
 
 int main()
 {
     int tc = 1;
-    //  cin >> tc;
+    cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();
