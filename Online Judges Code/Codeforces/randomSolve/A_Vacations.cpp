@@ -6,7 +6,7 @@
 */
 
 /*
-   Problem link : https://codeforces.com/problemset/problem/577/B
+   Problem link : https://codeforces.com/problemset/problem/698/A
    verdict : Accepted
 */
 
@@ -70,73 +70,42 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-map<pair<int, int>, int> mp;
-bool ok = false;
-int n, x;
-int ar[1000006];
-void findWay(int curP, int curS)
+int turgut[105][5];
+int bala[105];
+int n;
+int usman(int cur, int restriction)
 {
-    int prev = curS;
-    // cout << "calls curP, curS : " << curP << ", " << curS << endl;
-    if (curP == n)
-        return;
-    curS += ar[curP];
-    if (curS % x == 0)
+    if (cur == n)
+        return 0;
+    if (turgut[cur][restriction] != -1)
+        return turgut[cur][restriction];
+    int res1 = 0, res2 = 0, res3 = 0;
+    if (restriction != 1 && (bala[cur] == 1 || bala[cur] == 3))
     {
-        ok = true;
-        return;
+
+        res1 = 1 + usman(cur + 1, 1);
     }
-    curS = curS % x;
-    if (mp[{curP, curS}] == 1)
-        return;
-    mp[{curP, curS}] = 1;
-    findWay(curP + 1, prev);
-    findWay(curP + 1, curS);
+    if (restriction != 2 && (bala[cur] == 2 || bala[cur] == 3))
+    {
+        res2 = 1 + usman(cur + 1, 2);
+    }
+    res3 = usman(cur + 1, 0);
+    return turgut[cur][restriction] = max3(res1, res2, res3);
 }
 
 void solve()
 {
-    cin >> n >> x;
+    memset(turgut, -1, sizeof(turgut));
+    cin >> n;
     for (int i = 0; i < n; i++)
-        cin >> ar[i];
+        cin >> bala[i];
 
-    if (n <= x)
-    {
-        findWay(0, 0);
-        if (ok)
-            cout << "YES\n";
-        else
-            cout << "NO\n";
-    }
-    else
-    {
-        map<ll, ll> mp;
-        vector<ll> prefix(n + 1, 0);
-        for (int i = 0; i < n; i++)
-        {
-            prefix[i + 1] = prefix[i] + ar[i];
-            prefix[i] = prefix[i] % x;
-            mp[prefix[i]]++;
-            if (mp[prefix[i]] > 1)
-            {
-                cout << "YES\n";
-                return;
-            }
-        }
-        mp[prefix[n]++];
-        if (mp[prefix[n]] > 1)
-        {
-            cout << "YES\n";
-            return;
-        }
-
-        cout << "NO\n";
-    }
+    int res = usman(0, 0);
+    cout << n - res << endl;
 }
 
 int main()
 {
-    FasterIO;
     int tc = 1;
     // cin >> tc;
     for (int i = 1; i <= tc; i++)
