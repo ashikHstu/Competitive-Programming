@@ -70,46 +70,30 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+ll powmod(ll base, ll pow, ll mod)
+{
+    if (base == 0 && pow == 0)
+        return 1;
+    base %= mod;
+    ll result = 1;
+    while (pow > 0)
+    {
+        if (pow & 1)
+            result = (result * base) % mod;
+        base = (base * base) % mod;
+        pow >>= 1;
+    }
+    return result % mod;
+}
+
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    int res = 0;
-    ll ar[n + 2];
-    for (int i = 1; i <= n; i++)
-        cin >> ar[i];
-    priority_queue<ll> pq1, pq2;
-    ll curS = 0;
-    for (int i = m + 1; i <= n; i++)
-    {
-        curS += ar[i];
-        if (ar[i] < 0)
-            pq1.push(-ar[i]);
-        while (curS < 0)
-        {
-            ll t = pq1.top();
-            pq1.pop();
-            curS += (t * 2);
-            res++;
-        }
-    }
-    curS = 0;
-    for (int i = m; i > 1; i--)
-    {
-        curS -= ar[i];
-        if (ar[i] > 0)
-            pq2.push(ar[i]);
-
-        while (curS < 0)
-        {
-            ll t = pq2.top();
-            pq2.pop();
-            curS += (2 * t);
-            res++;
-        }
-    }
-
-    cout << res << endl;
+    ll a, b, c;
+    cin >> a >> b >> c;
+    ll m = 1e9 + 7;
+    ll res = powmod(b, c, m - 1);
+    res = powmod(a, res, m);
+    cout << res % m << endl;
 }
 
 int main()

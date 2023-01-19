@@ -5,11 +5,16 @@
       Email       : ashik.cse.hstu@gmail.com
 */
 
+/*
+   Problem link :
+   verdict :
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
+
 #define ll long long int
 
-#define MinHeap priority_queue<int, vector<int>, greater<int>>
 #define FasterIO             \
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
@@ -26,7 +31,6 @@ using namespace std;
 #define lcm(a, b) (a * (b / gcd(a, b)))
 #define sq(x) (x) * (x)
 #define CEIL(a, b) ((a / b) + ((a % b) != 0))
-#define NUMLEN(Num) to_string(Num).size()
 
 #define POSL(x, v) (lower_bound(x.begin(), x.end(), v) - x.begin())
 #define POSU(x, v) (upper_bound(x.begin(), x.end(), v) - x.begin())
@@ -38,69 +42,110 @@ using namespace std;
 #define pb push_back
 #define nl printf("\n")
 
-/// vector
-#define Lower_bound(vec, value) lower_bound(vec.begin(), vec.end(), value)
-#define Upper_bound(vec, value) upper_bound(vec.begin(), vec.end(), value)
-#define mnv(v) *min_element(all(v))
-#define mxv(v) *max_element(all(v))
+/** STL Functions     */
+// pbds
+#define fbo(ind) find_by_order(ind)
+#define ook(val) order_of_key(val)
 
-const int mod = 1e9 + 7;
-const int maxn = 100005;
+/**      Extra storing              */
+#define UNIQUE(v) (v).erase(unique(all(v)), (v).end())
 
-void solve(int kase)
+/**        End of Ex Storing                */
+
+/**------- Char Chk----------*/
+inline bool isLower(char ch) { return (ch >= 'a' && ch <= 'z'); }
+inline bool isUpper(char ch) { return (ch >= 'A' && ch <= 'Z'); }
+inline bool isDigit(char ch) { return (ch >= '0' && ch <= '9'); }
+inline bool isVowel(char ch)
 {
-    int n;
-    cin >> n;
-    ll ar[n + 3], br[n + 3];
-    for (int i = 0; i < n; i++)
+    ch = tolower(ch);
+    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
+}
+/*----------------------Graph Moves----------------*/
+// const int fx[]={+1,-1,+0,+0};
+// const int fy[]={+0,+0,+1,-1};
+// const int fx[]={+0,+0,+1,-1,-1,+1,-1,+1};   // Kings Move
+// const int fy[]={-1,+1,+0,+0,+1,+1,-1,-1};  // Kings Move
+// const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
+// const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
+/*------------------------------------------------*/
+
+void solve()
+{
+    int n, m;
+    cin >> n >> m;
+    priority_queue<pair<ll, ll>> pq;
+    ll ar[n + 2], prefix[n + 2];
+    ll res = 0;
+    prefix[0] = 0;
+    for (int i = 1; i <= n; i++)
     {
         cin >> ar[i];
-    }
-    ll mn, mx;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> br[i];
-    }
-
-    ll Left = 0;
-    ll dmin[n + 2], dmax[n + 2];
-
-    for (int i = 0; i < n; i++)
-    {
-        while (br[Left] < ar[i])
-            Left++;
-        dmin[i] = br[Left] - ar[i];
-    }
-
-    int pos = n - 1;
-
-    int ind = n - 1;
-    while (ind >= 0)
-    {
-        while (ind >= 0 && ar[pos] <= br[ind])
+        if (i != 1 && ar[i] > 0 && i == m)
         {
-            dmax[ind] = br[pos] - ar[ind];
-            ind--;
+            res++;
+            ar[i] = -ar[i];
         }
-        while (pos >= 0 && ind >= 0 && ar[pos] > br[ind])
+        prefix[i] = prefix[i - 1] + ar[i];
+    }
+
+    for (int i = 1; i <= m; i++)
+    {
+        pq.push({ar[i], i});
+    }
+    ll change = 0;
+    // cout << "agei res : " << res << endl;
+    for (int i = 1; i < m; i++)
+    {
+        if (ar[i] < prefix[m])
         {
-            pos--;
+            while (ar[i] < prefix[m])
+            {
+                pair<ll, ll> tp = pq.top();
+                pq.pop();
+                // cout << "proposing index : " << tp.second << endl;
+                if (tp.second <= i)
+                    continue;
+
+                res++;
+                // cout << "negating index : " << tp.second << endl;
+                ll nv = -(tp.first);
+                prefix[m] += nv;
+                prefix[m] += nv;
+                //  cout << "new val : " << prefix[m] << endl;
+                ar[tp.second] = nv;
+            }
+        }
+        ar[i + 1] += ar[i];
+    }
+
+    priority_queue<ll> pq2;
+    ll sum = ar[m];
+
+    // cout << "preRes : " << res << endl;
+    // cout << "preSum : " << sum << endl;
+
+    for (int i = m + 1; i <= n; i++)
+    {
+        sum += ar[i];
+        if (ar[i] < 0)
+        {
+
+            ll pv = (-1) * ar[i];
+            pq2.push(pv);
+        }
+        while (sum < prefix[m] && !pq2.empty())
+        {
+            //  cout << "ever?\n";
+            ll t = pq2.top();
+            sum += t;
+            sum += t;
+            res++;
+            pq2.pop();
         }
     }
 
-    // for (int i = n - 1; i >= 0; i--)
-    // {
-    //     while (ar[pos] > br[i])
-    //         pos--;
-    //     dmax[i] = br[pos] - ar[i];
-    // }
-
-    for (int i = 0; i < n; i++)
-        cout << dmin[i] << " ";
-    cout << endl;
-    for (int i = 0; i < n; i++)
-        cout << dmax[i] << " ";
-    cout << endl;
+    cout << res << endl;
 }
 
 int main()
@@ -109,7 +154,7 @@ int main()
     cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
-        solve(i);
+        solve();
     }
 
     return 0;

@@ -7,29 +7,21 @@ int my_rand(int l, int r) {
 
 int main()
 {
-  int tc=my_rand(1,5);
+  int tc=my_rand(1,3);
+
   cout<<tc<<endl;
   for(int i=1;i<=tc;i++)
   {
-      int a=my_rand(1,5);
-    cout<<a<<endl;
-    vector<int>va,vb;
-       for(int j=0;j<a;j++)
-       {
+     int n=my_rand(5,10);
+     int m=my_rand(1,n);
+     cout<<n<<" "<<m<<endl;
+     for(int j=0;j<n;j++)
+     {
+         int v=my_rand(-30,30);
+         cout<<v<<" ";
+     }
+     cout<<endl;
 
-           int v=my_rand(1,10);
-           va.push_back(v);
-       }
-       for(int j=0;j<a;j++)
-       {
-           int v=my_rand(1,10);
-           vb.push_back(v);
-       }
-
-       sort(va.begin(),va.end());
-       sort(vb.begin(),vb.end());
-       for(int v:va)cout<<v<<" ";cout<<endl;
-       for(int v:vb)cout<<v<<" ";cout<<endl;
 
   }
 

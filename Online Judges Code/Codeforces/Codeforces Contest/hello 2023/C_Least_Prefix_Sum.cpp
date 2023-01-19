@@ -73,7 +73,7 @@ void solve()
     ll ar[n + 3];
     ll sum = 0;
     ll middle;
-    int prefix[n + 3];
+    ll prefix[n + 3];
 
     for (int i = 0; i < n; i++)
     {
@@ -92,14 +92,14 @@ void solve()
     }
     middle = prefix[m - 1];
 
-    priority_queue<int> pq;
+    priority_queue<ll> pq;
     sum = middle;
     for (int i = m - 2; i >= 0; i--)
     {
 
         if (ar[i] > 0)
         {
-            int pv = ar[i];
+            ll pv = ar[i];
             pq.push(pv);
         }
         while (prefix[i] < middle && !pq.empty())
@@ -120,7 +120,7 @@ void solve()
         sum += ar[i];
         if (ar[i] < 0)
         {
-            int pv = (-1) * ar[i];
+            ll pv = (-1) * ar[i];
             pq.push(pv);
         }
         while (sum < middle && !pq.empty())

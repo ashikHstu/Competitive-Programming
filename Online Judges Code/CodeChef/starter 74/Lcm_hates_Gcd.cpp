@@ -72,44 +72,12 @@ inline bool isVowel(char ch)
 
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    int res = 0;
-    ll ar[n + 2];
-    for (int i = 1; i <= n; i++)
-        cin >> ar[i];
-    priority_queue<ll> pq1, pq2;
-    ll curS = 0;
-    for (int i = m + 1; i <= n; i++)
-    {
-        curS += ar[i];
-        if (ar[i] < 0)
-            pq1.push(-ar[i]);
-        while (curS < 0)
-        {
-            ll t = pq1.top();
-            pq1.pop();
-            curS += (t * 2);
-            res++;
-        }
-    }
-    curS = 0;
-    for (int i = m; i > 1; i--)
-    {
-        curS -= ar[i];
-        if (ar[i] > 0)
-            pq2.push(ar[i]);
-
-        while (curS < 0)
-        {
-            ll t = pq2.top();
-            pq2.pop();
-            curS += (2 * t);
-            res++;
-        }
-    }
-
-    cout << res << endl;
+    ll a, b;
+    cin >> a >> b;
+    ll cg = gcd(a, b);
+    ll r = lcm(cg, a);
+    ll rr = gcd(cg, b);
+    cout << r - rr << endl;
 }
 
 int main()
