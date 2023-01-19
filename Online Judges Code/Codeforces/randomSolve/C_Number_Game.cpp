@@ -69,9 +69,72 @@ inline bool isVowel(char ch)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
+void winner(int n)
+{
 
+    if (n == 2)
+    {
+        cout << "FastestFinger\n";
+    }
+    else if (n == 1)
+        cout << "Ashishgup\n";
+}
+bool isPrime(int n)
+{
+    int sqr = sqrt(n + 1);
+    if (n == 1)
+        return false;
+    if (n == 2)
+        return true;
+    for (int i = 3; i <= sqr; i += 2)
+    {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
 void solve()
 {
+    int n;
+    cin >> n;
+    if (n == 1)
+    {
+        winner(2);
+        return;
+    }
+    if (n == 2)
+    {
+        winner(1);
+        return;
+    }
+    if (n % 2 == 1)
+    {
+        winner(1);
+        return;
+    }
+
+    int ev = 0;
+    while (n % 2 == 0)
+    {
+        ev++;
+        n /= 2;
+    }
+    if (n == 1)
+    {
+        winner(2);
+        return;
+    }
+    if (isPrime(n))
+    {
+        if (ev == 1)
+            winner(2);
+        else
+            winner(1);
+    }
+    else
+    {
+        winner(1);
+    }
 }
 
 int main()
