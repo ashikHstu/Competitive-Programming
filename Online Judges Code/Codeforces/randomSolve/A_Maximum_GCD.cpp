@@ -74,35 +74,7 @@ void solve()
 {
     int n;
     cin >> n;
-    string st;
-    cin >> st;
-    int frontZ = 0, lastOne = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (st[i] == '0')
-            frontZ++;
-        else
-            break;
-    }
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (st[i] == '1')
-            lastOne++;
-        else
-            break;
-    }
-    if (lastOne + frontZ == n)
-    {
-        cout << st << endl;
-        return;
-    }
-
-    for (int i = 0; i < frontZ; i++)
-        cout << 0;
-    cout << "0";
-    for (int i = 0; i < lastOne; i++)
-        cout << "1";
-    cout << endl;
+    cout << n / 2 << endl;
 }
 
 int main()
