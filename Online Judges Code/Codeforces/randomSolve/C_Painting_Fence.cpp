@@ -6,8 +6,8 @@
 */
 
 /*
-   Problem link :
-   verdict :
+   Problem link : https://codeforces.com/problemset/problem/448/C
+   verdict : Accepted
 */
 
 #include <bits/stdc++.h>
@@ -69,64 +69,49 @@ inline bool isVowel(char ch)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
+int n;
+int ar[5003];
+ll turgut[5003][5003];
 
-#define isOn(S, j) (S & (1 << j))
-#define setBit(S, j) (S |= (1 << j))
+ll Usman(int cur, int horizontal)
+{
+    if (cur == n)
+        return 0;
+    if (horizontal > n)
+        return 0;
+
+    if (turgut[cur][horizontal] != -1)
+        return turgut[cur][horizontal];
+
+    ll resE = INT_MAX;
+    if (horizontal >= ar[cur])
+    {
+        resE = Usman(cur + 1, ar[cur]);
+        return turgut[cur][horizontal] = resE;
+    }
+
+    int lagbe = ar[cur] - horizontal;
+    int vr = 1 + Usman(cur + 1, horizontal);
+    int hr = 1 + (Usman(cur, horizontal + 1));
+    // cout << "step res (" << cur << ", " << horizontal << ") : " << hr << ", " << vr << endl;
+    return turgut[cur][horizontal] = min(hr, vr);
+}
 
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    int ar[n + 3][m + 3];
-    vector<int> pos[12];
-
+    mem(turgut, -1);
+    cin >> n;
     for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            cin >> ar[i][j];
-        }
-    }
-    map<vector<int>, int> mp;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            vector<int> tv(m, 0);
-            for (int k = 0; k < m; k++)
-            {
-                if (ar[i][k] <= j + 1)
-                {
-                    tv[k] = ar[i][k];
-                }
-            }
-            mp[tv] = 1;
-        }
-    }
+        cin >> ar[i];
 
-    for (int i = 0; i < n; i++)
-    {
-        int res = 0;
-        vector<int> vp(m, 0);
-        for (int j = 0; j < m; j++)
-        {
-            int pIndex = ar[i][j] - 1;
-            vp[pIndex] = j + 1;
-            if (mp[vp])
-                res = j + 1;
-            else
-                break;
-        }
-        cout << res << " ";
-    }
-
-    cout << endl;
+    ll res = Usman(0, 0);
+    cout << res << endl;
 }
 
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();
