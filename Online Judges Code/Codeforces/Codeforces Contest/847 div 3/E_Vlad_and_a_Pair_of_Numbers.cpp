@@ -70,8 +70,47 @@ inline bool isVowel(char ch)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+#define isOn(S, j) (S & (1 << j))
+#define setBit(S, j) (S |= (1 << j))
+
 void solve()
 {
+    int n;
+    cin >> n;
+    int res1 = 0, res2 = 0;
+    for (int i = 0; i < 30; i++)
+    {
+        if (isOn(n, i))
+            res1 = setBit(res1, i);
+    }
+    int ex = n * 2;
+    ex -= res1;
+    // cout << "ex : " << ex << endl;
+    // cout << "preRes1 : " << res1 << endl;
+    for (int i = 29; i >= 0; i--)
+    {
+        int v = 1 << i;
+        if (isOn(n, i))
+        {
+        }
+        else if (v * 2 <= ex)
+        {
+            // cout << "kon v vai? : " << v << endl;
+            res1 = setBit(res1, i);
+            res2 = setBit(res2, i);
+            ex -= (v * 2);
+        }
+    }
+    // cout << "final ex : " << ex << endl;
+    // cout << "res1 , res2 : " << res1 << ", " << res2 << endl;
+    if (ex != 0)
+    {
+        cout << "-1\n";
+    }
+    else
+    {
+        cout << res1 << " " << res2 << endl;
+    }
 }
 
 int main()
