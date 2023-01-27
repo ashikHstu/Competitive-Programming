@@ -72,6 +72,93 @@ inline bool isVowel(char ch)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    int ar[n + 3];
+    int pore[n + 3] = {0}, age[n + 3] = {0};
+    int ct[n + 3] = {0};
+    for (int i = 0; i < n - 1; i++)
+    {
+        cin >> ar[i];
+        ct[ar[i]]++;
+    }
+    int missing = -1;
+    for (int i = 1; i <= n; i++)
+    {
+        if (ct[i] == 0)
+        {
+            missing = i;
+            break;
+        }
+    }
+    for (int i = 1; i < n; i++)
+    {
+        bool paichi = false;
+        for (int j = 1; j < n; j++)
+        {
+            int v;
+            cin >> v;
+            if (v == missing)
+            {
+                paichi = true;
+                continue;
+            }
+            if (paichi)
+            {
+                age[v] = 1;
+            }
+            else
+            {
+                pore[v] = 1;
+            }
+        }
+    }
+
+    for (int i = 0; i < n - 1; i++)
+    {
+
+        if (i == 0)
+        {
+            if (age[ar[i]] == 1)
+                cout << missing << " ";
+        }
+        else
+        {
+            if (pore[ar[i - 1]] == 1 && age[ar[i]] == 1)
+            {
+                cout << missing << " ";
+            }
+        }
+        cout << ar[i] << " ";
+        if (pore[ar[i]] == 1 && i == n - 2)
+        {
+            cout << missing;
+        }
+    }
+    cout << endl;
+}
+void solve2()
+{
+    int n;
+    cin >> n;
+    vector<pair<int, int>> vec(n);
+    for (int i = 0; i < n; i++)
+        vec[i] = {0, i + 1};
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 1; j < n; j++)
+        {
+            int v;
+            cin >> v;
+            vec[v - 1].first += j;
+        }
+    }
+    sort(all(vec));
+    for (pair<int, int> p : vec)
+    {
+        cout << p.second << " ";
+    }
+    cout << endl;
 }
 
 int main()
@@ -80,7 +167,8 @@ int main()
     cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
-        solve();
+        // solve();
+        solve2();
     }
 
     return 0;
