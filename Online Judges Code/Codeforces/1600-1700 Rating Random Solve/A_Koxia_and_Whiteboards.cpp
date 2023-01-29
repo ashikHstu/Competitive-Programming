@@ -112,36 +112,32 @@ void solve()
     cin >> n >> m;
     ll sum = 0;
     vector<int> ar(n);
+    priority_queue<int, vector<int>, greater<int>> pq;
     for (int i = 0; i < n; i++)
     {
         int v;
         cin >> v;
-        sum += v;
-        ar[i] = v;
+        pq.push(v);
     }
     //  print_v(ar);
-    sort(all(ar));
-    vector<ll> ms(m);
+
     for (int i = 0; i < m; i++)
     {
         int v;
         cin >> v;
-        ms[i] = v;
+        int t = pq.top();
+        pq.pop();
+        pq.push(v);
     }
-    sort(all(ms));
-    reverse(all(ms));
 
-    // print_v(ms);
-    // cout << "Pre sum : " << sum << endl;
-    for (int i = 0; i < m; i++)
+    while (!pq.empty())
     {
-        if (i < n)
-        {
-            sum -= ar[i];
-            sum += ms[i];
-        }
+        int t = pq.top();
+        sum += t;
+        pq.pop();
     }
     cout << sum << endl;
+    return;
 }
 
 int main()
