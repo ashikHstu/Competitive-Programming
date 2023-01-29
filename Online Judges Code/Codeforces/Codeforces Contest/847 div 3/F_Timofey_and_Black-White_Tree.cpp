@@ -10,9 +10,6 @@
    verdict :
 */
 
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -64,29 +61,7 @@ inline bool isVowel(char ch)
     ch = tolower(ch);
     return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
 }
-string to_upper(string a)
-{
-    for (int i = 0; i < (int)a.size(); ++i)
-        if (a[i] >= 'a' && a[i] <= 'z')
-            a[i] -= 'a' - 'A';
-    return a;
-}
-string to_lower(string a)
-{
-    for (int i = 0; i < (int)a.size(); ++i)
-        if (a[i] >= 'A' && a[i] <= 'Z')
-            a[i] += 'a' - 'A';
-    return a;
-}
-bool prime(ll a)
-{
-    if (a == 1)
-        return 0;
-    for (int i = 2; i <= round(sqrt(a)); ++i)
-        if (a % i == 0)
-            return 0;
-    return 1;
-}
+
 /* PRINTS */
 template <class T>
 void print_v(vector<T> &v)
@@ -108,12 +83,17 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    vector<int> vec;
+    for (int i = 0; i < 10; i++)
+        vec.pb(i + 3);
+
+    print_v(vec);
 }
 
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    //   cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

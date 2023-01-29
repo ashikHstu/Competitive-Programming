@@ -108,10 +108,19 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    if (n % 2 == 0)
+    {
+        cout << "1 " << n / 2 << endl;
+        return;
+    }
+    cout << "-1\n";
 }
 
 int main()
 {
+
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
