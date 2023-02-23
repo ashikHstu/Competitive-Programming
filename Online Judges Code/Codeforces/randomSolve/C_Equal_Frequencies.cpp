@@ -108,6 +108,64 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    string st;
+    cin >> st;
+    vector<int> charPos[30];
+    vector<pair<int, int>> vec;
+    int ct[26] = {0};
+    string resString = st;
+    for (int i = 0; i < n; i++)
+    {
+        charPos[st[i] - 'a'].pb(i);
+        ct[st[i] - 'a']++;
+    }
+    for (int i = 0; i < 26; i++)
+    {
+        vec.pb({i, ct[i]});
+    }
+    sort(all(vec));
+    reverse(all(vec));
+    int res = n;
+    for (int k = 1; k <= 26; k++)
+    {
+
+        if (n % k != 0 || k > n)
+            continue;
+        vector<int> extraPositions;
+        int tr = 0;
+        int mainOcc = n / k;
+        for (int i = 0; i < 26; i++)
+        {
+            int exp = 0;
+            if (vec[i].second >= mainOcc)
+            {
+                int exp = vec[i].second - mainOcc;
+                for (int j = 0; j < exp; j++)
+                {
+                    extraPositions.pb(charPos[vec[i].first][j]);
+                }
+                tr += exp;
+            }
+            else
+            {
+                int extraLagbe = mainOcc - vec[i].second;
+                while (extraLagbe > 0)
+                {
+                    int lp = extraPositions.back();
+                    extraPositions.pop_back();
+                    resString[lp] = i + 'a';
+                    extraLagbe--;
+                }
+            }
+        }
+
+        res = min(res, tr);
+    }
+
+    cout << res << endl;
+    cout << resString << endl;
 }
 
 int main()
