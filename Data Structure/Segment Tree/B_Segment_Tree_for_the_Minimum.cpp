@@ -7,7 +7,7 @@
 
 /*
    Problem link :https://codeforces.com/edu/course/2/lesson/4/1/practice/contest/273169/problem/B
-   verdict :
+   verdict : Accepted
 */
 
 #include <bits/stdc++.h>
