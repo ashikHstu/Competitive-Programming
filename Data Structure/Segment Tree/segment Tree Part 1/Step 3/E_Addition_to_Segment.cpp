@@ -6,117 +6,196 @@
 */
 
 /*
-   Problem link :
-   verdict :
+   Problem link : https://codeforces.com/edu/course/2/lesson/4/3/practice/contest/274545/problem/E
+   verdict :  Accepted
 */
-
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
 #include <bits/stdc++.h>
 using namespace std;
-
-#define ll long long int
-
-#define FasterIO             \
-    ios::sync_with_stdio(0); \
-    cin.tie(0);              \
-    cout.tie(0)
-#define TIME clock() * 1.0 / CLOCKS_PER_SEC
-#define pi acos(-1.0)
-#define mem(a, b) memset(a, b, sizeof(a))
-#define all(a) a.begin(), a.end()
-#define Sort(x) sort(x.begin(), x.end())
-#define Reverse(x) reverse(x.begin(), x.end())
-#define SortA(ar, s) sort(ar, ar + s)
-#define SortD(ar, s) sort(ar, ar + s, greater<int>())
-#define gcd(a, b) __gcd(a, b)
-#define lcm(a, b) (a * (b / gcd(a, b)))
-#define sq(x) (x) * (x)
-#define CEIL(a, b) ((a / b) + ((a % b) != 0))
-
-#define POSL(x, v) (lower_bound(x.begin(), x.end(), v) - x.begin())
-#define POSU(x, v) (upper_bound(x.begin(), x.end(), v) - x.begin())
-#define min3(a, b, c) min(a, min(b, c))
-#define min4(a, b, c, d) min(a, min(b, min(c, d)))
-#define max3(a, b, c) max(a, max(b, c))
-#define max4(a, b, c, d) max(a, max(b, max(c, d)))
-#define ABS(x) ((x) < 0 ? -(x) : (x))
-#define pb push_back
-#define nl printf("\n")
-
-/** STL Functions     */
-// pbds
-#define fbo(ind) find_by_order(ind)
-#define ook(val) order_of_key(val)
-
-/**      Extra storing              */
-#define UNIQUE(v) (v).erase(unique(all(v)), (v).end())
-
-/**        End of Ex Storing                */
-
-/**------- Char Chk----------*/
-inline bool isLower(char ch) { return (ch >= 'a' && ch <= 'z'); }
-inline bool isUpper(char ch) { return (ch >= 'A' && ch <= 'Z'); }
-inline bool isDigit(char ch) { return (ch >= '0' && ch <= '9'); }
-inline bool isVowel(char ch)
+#define int long long
+// struct item
+//{
+//     long long seg,pref,suf,sum;
+// };
+typedef long long item;
+struct segTree
 {
-    ch = tolower(ch);
-    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
-}
-string to_upper(string a)
-{
-    for (int i = 0; i < (int)a.size(); ++i)
-        if (a[i] >= 'a' && a[i] <= 'z')
-            a[i] -= 'a' - 'A';
-    return a;
-}
-string to_lower(string a)
-{
-    for (int i = 0; i < (int)a.size(); ++i)
-        if (a[i] >= 'A' && a[i] <= 'Z')
-            a[i] += 'a' - 'A';
-    return a;
-}
-bool prime(ll a)
-{
-    if (a == 1)
-        return 0;
-    for (int i = 2; i <= round(sqrt(a)); ++i)
-        if (a % i == 0)
-            return 0;
-    return 1;
-}
-/* PRINTS */
-template <class T>
-void print_v(vector<T> &v)
-{
-    cout << "{";
-    for (auto x : v)
-        cout << x << ",";
-    cout << "\b}";
-}
-
-/*----------------------Graph Moves----------------*/
-// const int fx[]={+1,-1,+0,+0};
-// const int fy[]={+0,+0,+1,-1};
-// const int fx[]={+0,+0,+1,-1,-1,+1,-1,+1};   // Kings Move
-// const int fy[]={-1,+1,+0,+0,+1,+1,-1,-1};  // Kings Move
-// const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
-// const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
-/*------------------------------------------------*/
-
-void solve()
-{
-}
-
-int main()
-{
-    int tc = 1;
-    cin >> tc;
-    for (int i = 1; i <= tc; i++)
+    int size;
+    vector<item> values;
+    item NEUTRAL_ELEMENT = 0;
+    item Single(int v)
     {
-        solve();
+        return v;
+    }
+    item Merge(item a, item b)
+    {
+        return a + b;
+    }
+    // O(log(n)
+    void init(int n)
+    {
+        size = 1;
+        while (size < n)
+            size *= 2;
+        values.resize(2 * size, 0);
+    }
+
+    // O(nlogn) , although said, O(n), i think O(nlogn)
+    void build(vector<int> &a, int x, int lx, int rx)
+    {
+        if (rx - lx == 1)
+        {
+            if (lx < a.size())
+            {
+                values[x] = Single(a[lx]);
+            }
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        build(a, x * 2 + 1, lx, mid);
+        build(a, x * 2 + 2, mid, rx);
+        values[x] = Merge(values[2 * x + 1], values[2 * x + 2]);
+    }
+    void build(vector<int> &a)
+    {
+        build(a, 0, 0, size);
+    }
+    /// O(logn)
+    void set(int i, int v, int x, int lx, int rx)
+    {
+        if (rx - lx == 1)
+        {
+            values[x] = Single(v);
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        if (i < mid)
+        {
+            set(i, v, 2 * x + 1, lx, mid);
+        }
+        else
+        {
+            set(i, v, 2 * x + 2, mid, rx);
+        }
+        values[x] = Merge(values[2 * x + 1], values[2 * x + 2]);
+    }
+    void set(int i, int v)
+    {
+        set(i, v, 0, 0, size);
+    }
+
+    // O(logn)
+    void Add(int i, int v, int x, int lx, int rx)
+    {
+        if (rx - lx == 1)
+        {
+            values[x] = values[x] + Single(v);
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        if (i < mid)
+        {
+            Add(i, v, 2 * x + 1, lx, mid);
+        }
+        else
+        {
+            Add(i, v, 2 * x + 2, mid, rx);
+        }
+        values[x] = Merge(values[2 * x + 1], values[2 * x + 2]);
+    }
+    void Add(int i, int v)
+    {
+        Add(i, v, 0, 0, size);
+    }
+    /// O(logn)
+    item calc(int l, int r, int x, int lx, int rx)
+    {
+        if (l >= rx || r <= lx)
+            return NEUTRAL_ELEMENT;
+        if (lx >= l && rx <= r)
+            return values[x];
+        int mid = (lx + rx) / 2;
+        item s1 = calc(l, r, x * 2 + 1, lx, mid);
+        item s2 = calc(l, r, x * 2 + 2, mid, rx);
+        return Merge(s1, s2);
+    }
+
+    item calc(int l, int r)
+    {
+        return calc(l, r, 0, 0, size);
+    }
+    /// O(logn)
+    int find(int k, int x, int lx, int rx)
+    {
+        if (rx - lx == 1)
+        {
+            return lx;
+        }
+        int mid = (lx + rx) / 2;
+        int daneAche = values[x * 2 + 1];
+        // int bameAche=values[x*2+2];
+        if (k < daneAche)
+        {
+            return find(k, x * 2 + 1, lx, mid);
+        }
+        else
+        {
+            return find(k - daneAche, x * 2 + 2, mid, rx);
+        }
+    }
+
+    int find(int k)
+    {
+        return find(k, 0, 0, size);
+    }
+    /// O(logn)
+    int first_above(int v, int l, int x, int lx, int rx)
+    {
+        if (values[x] < v)
+            return -1;
+        if (rx <= l)
+            return -1;
+        if (rx - lx == 1)
+            return lx;
+        int mid = (lx + rx) / 2;
+        int res = first_above(v, l, 2 * x + 1, lx, mid);
+        if (res == -1)
+        {
+            res = first_above(v, l, 2 * x + 2, mid, rx);
+        }
+        return res;
+    }
+
+    int first_above(int v, int l)
+    {
+        return first_above(v, l, 0, 0, size);
+    }
+};
+
+int32_t main()
+{
+    int n, m;
+    cin >> n >> m;
+    segTree ST;
+
+    ST.init(n + 1);
+    for (int i = 0; i < m; i++)
+    {
+        int type;
+        cin >> type;
+        if (type == 1)
+        {
+            int l, r, v;
+            cin >> l >> r >> v;
+            ST.Add(l, v);
+            ST.Add(r, -v);
+        }
+        else
+        {
+            int ind;
+            cin >> ind;
+            int res = ST.calc(0, ind + 1);
+            cout << res << endl;
+        }
     }
 
     return 0;
