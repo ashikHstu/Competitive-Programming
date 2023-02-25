@@ -30,7 +30,7 @@ struct segTree
     {
         return a + b;
     }
-    // O(log(n)
+    // O(log(n))
     void init(int n)
     {
         size = 1;
