@@ -41,7 +41,10 @@ struct segTree
 
             res.freq[i] = a.freq[i] + b.freq[i];
         }
-
+        /*
+            if any element from a is greater than any element from b, it will also added
+            to the result (by multiplying the occurences)
+        */
         for (int i = 0; i < 41; i++)
         {
 
