@@ -55,13 +55,13 @@ struct segTree
         long long res;
         if (i < mid)
         {
-            return Get(i, 2 * x + 1, lx, mid) + operations[x];
+            res = Get(i, 2 * x + 1, lx, mid);
         }
         else
         {
-            return Get(i, 2 * x + 2, mid, rx) + operations[x];
+            res = Get(i, 2 * x + 2, mid, rx);
         }
-        // return res+operations[x];
+        return res + operations[x];
     }
 
     long long Get(int i)
