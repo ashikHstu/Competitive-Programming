@@ -6,7 +6,7 @@
 */
 
 /*
-   Problem link : https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/A
+   Problem link : https://codeforces.com/edu/course/2/lesson/7/1/practice/contest/289390/problem/B
    verdict : Accepted
 */
 
@@ -15,19 +15,24 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-
+#define FasterIO             \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0)
 #define ll long long
 
 struct DSU
 {
     int totalConnectedComponent;
-    vector<int> parent, setSize;
+    vector<int> parent, setSize, setMin, setMax;
 
     void init(int n)
     {
-        parent = setSize = vector<int>(n + 1, 0);
+        parent = setSize = setMin = setMax = vector<int>(n + 1, 0);
         for (int i = 1; i <= n; i++)
-            parent[i] = i, setSize[i] = 1;
+        {
+            parent[i] = setMin[i] = setMax[i] = i, setSize[i] = 1;
+        }
         totalConnectedComponent = n;
     }
 
@@ -54,6 +59,14 @@ struct DSU
     {
         return setSize[findParent(u)];
     }
+    int getSetMin(int u)
+    {
+        return setMin[findParent(u)];
+    }
+    int getSetMax(int u)
+    {
+        return setMax[findParent(u)];
+    }
 
     void Union(int u, int v)
     {
@@ -68,6 +81,8 @@ struct DSU
             swap(parent1, parent2);
 
         setSize[parent2] += setSize[parent1];
+        setMin[parent2] = min(setMin[parent1], setMin[parent2]);
+        setMax[parent2] = max(setMax[parent1], setMax[parent2]);
         setSize[parent1] = 0;
         parent[parent1] = parent[parent2];
     }
@@ -77,6 +92,7 @@ struct DSU
 
 int main()
 {
+    FasterIO;
     int n, op;
     cin >> n >> op;
     DSU dsu;
@@ -84,23 +100,23 @@ int main()
     for (int i = 0; i < op; i++)
     {
         string type;
-        int a, b;
         cin >> type;
-        cin >> a >> b;
         if (type == "union")
         {
-            dsu.Union(a, b); // make union of set contain a, with set contain b
+            int a, b;
+            cin >> a >> b;
+            dsu.Union(a, b); // to make the union of two set,which contain element a and element b
         }
         else
         {
-            if (dsu.isSameSet(a, b)) // check if a and b are from same set
-            {
-                cout << "YES\n";
-            }
-            else
-            {
-                cout << "NO\n";
-            }
+            int ind;
+            cin >> ind;
+            cout << dsu.getSetMin(ind) << " " << dsu.getSetMax(ind) << " " << dsu.getSetSize(ind) << endl;
+            /*
+               getSetMin(ind)-> to get the minimum among the set which contain the element ind
+               getSetMax(ind)-> to get the maximum among the set which contain the element ind
+               getSetSize(ind)-> to get the size of a set which contain the element ind
+            */
         }
     }
 
