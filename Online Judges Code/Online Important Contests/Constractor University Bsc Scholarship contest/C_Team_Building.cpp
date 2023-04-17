@@ -45,13 +45,11 @@ void solve()
         }
         exP += (r - l);
     }
-    // cout << "exP  : " << exP << endl;
     if (nonc <= exP)
     {
         cout << "YES\n";
         return;
     }
-    //  cout << "final catch?\n";
     nonc -= exP;
     int bakiAche = nonc + gen;
     int maxTeam = (bakiAche / r) + ((bakiAche % r) != 0);
