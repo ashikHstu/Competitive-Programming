@@ -1,0 +1,1 @@
+{"name":"Local: bipartiteChecking","url":"h:\\GitHub WorkPlace\\CP Codes\\random solve\\bipartiteChecking.cpp","tests":[{"id":1681749889088,"input":"5 5\n1 2\n2 3\n2 4\n3 4\n4 5","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"h:\\GitHub WorkPlace\\CP Codes\\random solve\\bipartiteChecking.cpp","group":"local","local":true}
