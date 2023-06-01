@@ -106,38 +106,43 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+vector<int> g[101];
+int visited[101];
+
+int n, e;
+void dfs(int src)
+{
+    cout << src << " ";
+    visited[src] = 1;
+
+    for (int v : g[src])
+    {
+        if (visited[v] == 0)
+            dfs(v);
+    }
+
+    visited[src] = 2;
+}
+
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<pair<int, int>> vec;
-    int time[n + 2], ev[n + 2];
-    for (int i = 0; i < n; i++)
+    cin >> n >> e;
+    for (int i = 0; i < e; i++)
     {
-        cin >> time[i];
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
     }
-    for (int i = 0; i < n; i++)
-    {
-        cin >> ev[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        int cv = time[i];
-        if (cv + i <= k)
-            vec.pb({ev[i], i + 1});
-    }
-    sort(all(vec));
-    reverse(all(vec));
-    if (vec.size() == 0)
-        cout << -1 << endl;
-    else
-        cout << vec[0].second << endl;
-    // cout << vec[0].second << endl;
+    int target;
+    cin >> target;
+    dfs(target);
 }
+
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    //  cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();

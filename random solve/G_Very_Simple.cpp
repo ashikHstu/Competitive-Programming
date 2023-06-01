@@ -106,34 +106,27 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
+#define mx 1000006
+int nod[mx];
+void nod_precompute()
+{
+    memset(nod, 0, sizeof(nod));
+    for (int i = 1; i <= mx; i++)
+    {
+        for (int j = i; j <= mx; j += i)
+            nod[j]++;
+    }
+}
+
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<pair<int, int>> vec;
-    int time[n + 2], ev[n + 2];
-    for (int i = 0; i < n; i++)
-    {
-        cin >> time[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        cin >> ev[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        int cv = time[i];
-        if (cv + i <= k)
-            vec.pb({ev[i], i + 1});
-    }
-    sort(all(vec));
-    reverse(all(vec));
-    if (vec.size() == 0)
-        cout << -1 << endl;
-    else
-        cout << vec[0].second << endl;
-    // cout << vec[0].second << endl;
+    // nod_precompute();
+    ll n;
+    cin >> n;
+    ll res = n * n;
+    cout << res << endl;
 }
+
 int main()
 {
     int tc = 1;

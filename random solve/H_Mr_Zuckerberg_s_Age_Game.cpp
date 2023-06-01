@@ -81,7 +81,7 @@ string to_lower(string a)
 bool prime(ll a)
 {
     if (a == 1)
-        return 0;
+        return 1;
     for (int i = 2; i <= round(sqrt(a)); ++i)
         if (a % i == 0)
             return 0;
@@ -108,32 +108,11 @@ void print_v(vector<T> &v)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<pair<int, int>> vec;
-    int time[n + 2], ev[n + 2];
-    for (int i = 0; i < n; i++)
-    {
-        cin >> time[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        cin >> ev[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        int cv = time[i];
-        if (cv + i <= k)
-            vec.pb({ev[i], i + 1});
-    }
-    sort(all(vec));
-    reverse(all(vec));
-    if (vec.size() == 0)
-        cout << -1 << endl;
-    else
-        cout << vec[0].second << endl;
-    // cout << vec[0].second << endl;
+    int n;
+    cin >> n;
+    cout << prime(n) << endl;
 }
+
 int main()
 {
     int tc = 1;

@@ -108,34 +108,62 @@ void print_v(vector<T> &v)
 
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<pair<int, int>> vec;
-    int time[n + 2], ev[n + 2];
-    for (int i = 0; i < n; i++)
+    string st;
+    cin >> st;
+    int len = st.size();
+    if (len < 3)
     {
-        cin >> time[i];
+        cout << st << endl;
+        return;
     }
-    for (int i = 0; i < n; i++)
+    vector<string> vec;
+
+    string newSt = st;
+    string res = st;
+    for (int i = 0; i < len; i++)
     {
-        cin >> ev[i];
+        for (int j = i + 1; j < len; j++)
+        {
+            for (int k = 0; k < len; k++)
+            {
+                for (int l = k + 1; l < len; l++)
+                {
+
+                    swap(newSt[i], newSt[j]);
+                    swap(newSt[k], newSt[l]);
+                    res = max(res, newSt);
+                    swap(newSt[k], newSt[l]);
+                    swap(newSt[i], newSt[j]);
+
+                    // swap(newSt[k], newSt[l]);
+                    // swap(newSt[i], newSt[j]);
+                    // vec.pb(newSt);
+                    // swap(newSt[i], newSt[j]);
+                    // swap(newSt[k], newSt[l]);
+                }
+            }
+        }
     }
-    for (int i = 0; i < n; i++)
+    cout << res << endl;
+    return;
+
+    vector<int> numb;
+    for (string vc : vec)
     {
-        int cv = time[i];
-        if (cv + i <= k)
-            vec.pb({ev[i], i + 1});
+        int iv = stoi(vc);
+        numb.pb(iv);
     }
-    sort(all(vec));
-    reverse(all(vec));
-    if (vec.size() == 0)
-        cout << -1 << endl;
-    else
-        cout << vec[0].second << endl;
-    // cout << vec[0].second << endl;
+    int on = stoi(st);
+    numb.pb(on);
+    sort(all(numb));
+    int lln = numb.size();
+
+    cout << numb[lln - 1] << endl;
 }
+
 int main()
 {
+    FasterIO;
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
