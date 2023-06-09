@@ -74,46 +74,53 @@ void make_nCr()
 /*
 
 _________________________________________________________________________
-     4) nCr mod prime number
+     4) nCr mod prime number  (Tested with cf : 1475E)
 __________________________________________________________________________
 
 //Complexity : O(n)
+
 #define int long long int
 #define mod 1000000007
-
-
-int inv[200005];
-int factInv[200005];
-int fact[200005];
+#define sz 3003
+int inv[sz + 3];
+int factInv[sz + 3];
+int fact[sz + 3];
 void makeInv()
 {
-    inv[0]=inv[1]=1;
-    for(int i=2;i<=200000;i++)
-        inv[i]=mod-(mod/i)*inv[mod%i]%mod;
+    inv[0] = inv[1] = 1;
+    for (int i = 2; i <= sz; i++)
+        inv[i] = mod - (mod / i) * inv[mod % i] % mod;
 }
 
 void makeFactInv()
 {
-    factInv[0]=factInv[1]=1;
-    for(int i=2;i<=200000;i++)
+    factInv[0] = factInv[1] = 1;
+    for (int i = 2; i <= sz; i++)
     {
-        factInv[i]=(factInv[i-1]*inv[i])%mod;
+        factInv[i] = (factInv[i - 1] * inv[i]) % mod;
     }
 }
 
 void makeFact()
 {
-    fact[0]=1;
-    for(int i=1;i<=200000;i++)
-        fact[i]=(fact[i-1]*i)%mod;
+    fact[0] = 1;
+    for (int i = 1; i <= sz; i++)
+        fact[i] = (fact[i - 1] * i) % mod;
 }
 
-int nCr(int n,int r)
+int nCr(int n, int r)
 {
-    if(n<r)return 0;
-    if(n==r || r==0)return 1;
-    if(r==1 || r==n-1)return n;
-    int res=(((fact[n]*factInv[r])%mod)*factInv[n-r])%mod;
+    // makeInv();
+    // makeFactInv();
+    // makeFact();
+
+    if (n < r)
+        return 0;
+    if (n == r || r == 0)
+        return 1;
+    if (r == 1 || r == n - 1)
+        return n;
+    int res = (((fact[n] * factInv[r]) % mod) * factInv[n - r]) % mod;
     return res;
 }
 
