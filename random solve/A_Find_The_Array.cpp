@@ -108,6 +108,12 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    int n;
+    cin >> n;
+    int sq = sqrt(n);
+    if (sq * sq != n)
+        sq++;
+    cout << sq << endl;
 }
 
 int main()
