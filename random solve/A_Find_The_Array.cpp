@@ -108,32 +108,10 @@ void print_v(vector<T> &v)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<double> vec(n);
-    double sum = 0;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> vec[i];
-        sum += vec[i];
-    }
-    sort(all(vec));
-    double pre = vec[0];
-    sum = sum - vec[0];
-    double res = pre + (sum / (double)(n - 1.0));
-    for (int i = 1; i < n; i++)
-    {
-        pre += (vec[i]);
-        sum -= vec[i];
-        double temp = (pre / (double)(i + 1.0)) + (sum / (double)(n - i - 1.0));
-        res = max(res, temp);
-    }
-    cout << fixed << setprecision(9) << res << endl;
 }
 
 int main()
 {
-    FasterIO;
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
