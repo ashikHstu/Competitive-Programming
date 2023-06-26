@@ -108,22 +108,6 @@ void print_v(vector<T> &v)
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int z = 0, one = 0;
-    for (int i = 0; i < n; i++)
-    {
-        int v;
-        cin >> v;
-        if (v == 0)
-            z++;
-        else if (v == 1)
-            one++;
-    }
-    ll res = 0;
-    res = (1LL << z);
-    res *= one;
-    cout << res << endl;
 }
 
 int main()
