@@ -108,6 +108,18 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    ll n, x;
+    cin >> n >> x;
+    ll res1 = 0, res2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int v;
+        cin >> v;
+        res1 += v;
+        res2 += (CEIL(v, x));
+    }
+    res1 = CEIL(res1, x);
+    cout << res1 << " " << res2 << endl;
 }
 
 int main()
