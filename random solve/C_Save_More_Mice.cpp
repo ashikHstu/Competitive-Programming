@@ -108,6 +108,24 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    int l, n;
+    cin >> l >> n;
+    vector<int> vec(n);
+    for (int i = 0; i < n; i++)
+        cin >> vec[i];
+    sort(all(vec));
+    reverse(all(vec));
+    int cur = 0;
+    int res = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cur += (l - vec[i]);
+        if (cur < l)
+            res++;
+        else
+            break;
+    }
+    cout << res << endl;
 }
 
 int main()
