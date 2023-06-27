@@ -105,12 +105,28 @@ void print_v(vector<T> &v)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
-
+#define int long long int
 void solve()
 {
+    int n, a, b;
+    cin >> n >> a >> b;
+    int mxParbe = b / a;
+    mxParbe = min(mxParbe, n);
+    int ext = n - mxParbe - 1;
+
+    int res = ext * mxParbe;
+    res += ((mxParbe * (mxParbe + 1)) / 2);
+    cout << res << endl;
+    return;
+    for (int i = 0; i < n; i++)
+    {
+        // cout << "at " << i + 1 << ": " << n - i - 1 << endl;
+        res += min(mxParbe, n - i - 1);
+    }
+    cout << res << endl;
 }
 
-int main()
+int32_t main()
 {
     int tc = 1;
     cin >> tc;
