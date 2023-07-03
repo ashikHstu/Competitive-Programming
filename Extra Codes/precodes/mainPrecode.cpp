@@ -72,7 +72,7 @@ struct pbds_cmp
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 #define pb push_back
 #define nl printf("\n")
-#define priority_queue <int, vector<int>, greater<int>> minHeap
+// #define priority_queue <int, vector<int>, greater<int>> minHeap
 
 /** STL Functions     */
 // pbds
