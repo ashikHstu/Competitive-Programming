@@ -44,7 +44,7 @@ using namespace std;
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 #define pb push_back
 #define nl printf("\n")
-#define priority_queue <int, vector<int>, greater<int>> minHeap
+
 /** STL Functions     */
 // pbds
 #define fbo(ind) find_by_order(ind)
@@ -108,6 +108,30 @@ void print_v(vector<T> &v)
 
 void solve()
 {
+    string st;
+    cin >> st;
+    int n = st.size();
+    for (int i = n - 1; i > 1; i--)
+    {
+        int Last2 = (st[i - 1] - '0') + (st[i] - '0');
+        if (Last2 >= 10)
+        {
+            for (int j = 0; j < i - 1; j++)
+                cout << st[j];
+            cout << Last2;
+            for (int j = i + 1; j < n; j++)
+                cout << st[j];
+            cout << endl;
+            return;
+        }
+    }
+
+    int Last2 = (st[0] - '0') + (st[1] - '0');
+    cout << Last2;
+
+    for (int i = 2; i < n; i++)
+        cout << st[i];
+    cout << endl;
 }
 
 int main()
