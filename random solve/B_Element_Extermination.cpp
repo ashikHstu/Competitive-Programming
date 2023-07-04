@@ -113,21 +113,8 @@ void solve()
     vector<int> ar(n);
     for (int &x : ar)
         cin >> x;
-    vector<int> stk;
-    for (int i = 0; i < n; i++)
-    {
-        if (stk.size() == 0)
-            stk.push_back(ar[i]);
-        else if (stk.back() > ar[i])
-            stk.push_back(ar[i]);
-        else if (stk.back() < ar[i])
-        {
-            if (stk.size() > 1)
-                stk.pop_back();
-        }
-    }
 
-    if (stk.size() <= 1)
+    if (ar[0] < ar[n - 1])
         cout << "YES\n";
     else
         cout << "NO\n";
