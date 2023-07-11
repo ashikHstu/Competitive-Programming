@@ -123,44 +123,42 @@ double findRes(double e1, double e2)
 
 void solve()
 {
-    int L, H;
+    double L, H;
     cin >> L >> H;
-    int x1, x2, y1, y2;
+    double x1, x2, y1, y2;
     cin >> x1 >> y1 >> x2 >> y2;
-    int l1 = x1 - 0, l2 = L - x2;
-    int h1 = y1 - 0, h2 = H - y2;
+    double l1 = x1 - 0, l2 = L - x2;
+    double h1 = y1 - 0, h2 = H - y2;
 
     int h, l;
     cin >> l >> h;
     //  cout << "l1+l2 : " << l1 + l2 << endl;
     //   cout << "h1+h2 : " << h1 + h2 << endl;
-    if (l1 + l2 < l && h1 + h2 < h)
+    bool ok = false;
+    double res = L + H + H;
+
+    if (l + (x2 - x1) <= L)
     {
-        cout << "-1\n";
-        return;
+        ok = true;
+        res = min(res, max(0.0, l - x1));
+        res = min(res, max(0.0, x2 - (L - l)));
+    }
+    if (h + (y2 - y1) <= H)
+    {
+        ok = true;
+        res = min(res, max(0.0, h - y1));
+        res = min(res, max(0.0, y2 - (H - h)));
     }
 
-    // Left, Niche
-    double exL = l - l2;
-    double exH = h - h2;
-    double res = findRes(exL, exH);
-
-    exL = l - l2;
-    exH = h - h1;
-    res = min(res, findRes(exL, exH));
-    exL = l - l1;
-    exH = h - h1;
-    res = min(res, findRes(exL, exH));
-    exL = l - l1;
-    exH = h - h2;
-    res = min(res, findRes(exL, exH));
-
-    cout << res << endl;
+    if (ok)
+        cout << res << endl;
+    else
+        cout << "-1\n";
 }
 
 int main()
 {
-    doshomik(8);
+    doshomik(9);
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
