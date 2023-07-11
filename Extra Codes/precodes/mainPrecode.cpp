@@ -49,6 +49,7 @@ struct pbds_cmp
   ios::sync_with_stdio(0); \
   cin.tie(0);              \
   cout.tie(0)
+#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))

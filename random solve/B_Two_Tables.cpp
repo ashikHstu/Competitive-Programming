@@ -22,7 +22,6 @@ using namespace std;
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
-#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))
@@ -106,13 +105,62 @@ void print_v(vector<T> &v)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
+#define doshomik(x) cout << fixed << setprecision(x)
+double findRes(double e1, double e2)
+{
+    // cout << "e1 & e2 : " << e1 << " , " << e2 << endl;
+    if (e1 <= 0 && e2 <= 0)
+        return 0;
+    if (e1 <= 0)
+        return e2;
+    if (e2 <= 0)
+        return e1;
+    return min(e1, e2);
+    double dis = (e1 * e1 + e2 * e2);
+    dis = sqrt(dis);
+    return dis;
+}
 
 void solve()
 {
+    int L, H;
+    cin >> L >> H;
+    int x1, x2, y1, y2;
+    cin >> x1 >> y1 >> x2 >> y2;
+    int l1 = x1 - 0, l2 = L - x2;
+    int h1 = y1 - 0, h2 = H - y2;
+
+    int h, l;
+    cin >> l >> h;
+    //  cout << "l1+l2 : " << l1 + l2 << endl;
+    //   cout << "h1+h2 : " << h1 + h2 << endl;
+    if (l1 + l2 < l && h1 + h2 < h)
+    {
+        cout << "-1\n";
+        return;
+    }
+
+    // Left, Niche
+    double exL = l - l2;
+    double exH = h - h2;
+    double res = findRes(exL, exH);
+
+    exL = l - l2;
+    exH = h - h1;
+    res = min(res, findRes(exL, exH));
+    exL = l - l1;
+    exH = h - h1;
+    res = min(res, findRes(exL, exH));
+    exL = l - l1;
+    exH = h - h2;
+    res = min(res, findRes(exL, exH));
+
+    cout << res << endl;
 }
 
 int main()
 {
+    doshomik(8);
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
