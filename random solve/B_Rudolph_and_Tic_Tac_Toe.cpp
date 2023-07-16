@@ -22,6 +22,7 @@ using namespace std;
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
+#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))
@@ -106,55 +107,44 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-vector<int> adj[300000];
-int n, m, u, l, k, dp[300000], vis[300000];
-
-void bfs(int node)
+bool ok(char ch)
 {
-    queue<int> q;
-    q.push(node);
-    vis[node] = 1;
-    while (!q.empty())
-    {
-        node = q.front();
-        q.pop();
-        for (auto it : adj[node])
-        {
-            if (!vis[it])
-            {
-                q.push(it);
-                dp[it] = dp[node] + 1;
-                vis[it] = 1;
-            }
-        }
-    }
+    if (ch == '.')
+        return false;
+    cout << ch << endl;
+    return true;
 }
 
 void solve()
 {
-    int x, y, z, i, ans = 0;
-    cin >> n >> m >> u >> l >> k;
-    int a[m + 5], b[m + 5], c[m + 5];
-    for (i = 1; i <= m; i++)
+    string st[3];
+    for (int i = 0; i < 3; i++)
+        cin >> st[i];
+    for (int i = 0; i < 3; i++)
     {
-        cin >> a[i] >> b[i] >> c[i];
-        adj[a[i]].pb(b[i]);
-        adj[b[i]].pb(a[i]);
-    }
-    bfs(u);
-    for (i = 1; i <= m; i++)
-    {
-        if (dp[a[i]] < k || dp[b[i]] < k)
+        if (st[i][0] == st[i][1] && st[i][1] == st[i][2])
         {
-            ans = max(ans, c[i]);
+            if (ok(st[i][0]))
+                return;
+        }
+        if (st[0][i] == st[1][i] && st[1][i] == st[2][i])
+        {
+            if (ok(st[0][i]))
+                return;
         }
     }
-    cout << ans << endl;
-    for (i = 1; i <= n; i++)
+    if (st[0][0] == st[1][1] && st[1][1] == st[2][2])
     {
-        adj[i].clear();
-        vis[i] = dp[i] = 0;
+        if (ok(st[0][0]))
+            return;
     }
+
+    if (st[2][0] == st[1][1] && st[1][1] == st[0][2])
+    {
+        if (ok(st[2][0]))
+            return;
+    }
+    cout << "DRAW" << endl;
 }
 
 int main()

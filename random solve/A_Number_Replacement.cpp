@@ -22,6 +22,7 @@ using namespace std;
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
+#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))
@@ -106,55 +107,36 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-vector<int> adj[300000];
-int n, m, u, l, k, dp[300000], vis[300000];
-
-void bfs(int node)
+void solve()
 {
-    queue<int> q;
-    q.push(node);
-    vis[node] = 1;
-    while (!q.empty())
+    int n;
+    cin >> n;
+    vector<int> ar(n + 1);
+    for (int i = 0; i < n; i++)
+        cin >> ar[i];
+    string st;
+    cin >> st;
+    vector<int> places[100];
+    for (int i = 0; i < n; i++)
     {
-        node = q.front();
-        q.pop();
-        for (auto it : adj[node])
+        places[ar[i]].pb(i);
+    }
+    for (int i = 0; i < 100; i++)
+    {
+        if (places[i].size() == 0)
+            continue;
+        int len = places[i].size();
+        for (int j = 1; j < len; j++)
         {
-            if (!vis[it])
+            if (st[places[i][j]] != st[places[i][0]])
             {
-                q.push(it);
-                dp[it] = dp[node] + 1;
-                vis[it] = 1;
+                cout << "NO\n";
+                return;
             }
         }
     }
-}
 
-void solve()
-{
-    int x, y, z, i, ans = 0;
-    cin >> n >> m >> u >> l >> k;
-    int a[m + 5], b[m + 5], c[m + 5];
-    for (i = 1; i <= m; i++)
-    {
-        cin >> a[i] >> b[i] >> c[i];
-        adj[a[i]].pb(b[i]);
-        adj[b[i]].pb(a[i]);
-    }
-    bfs(u);
-    for (i = 1; i <= m; i++)
-    {
-        if (dp[a[i]] < k || dp[b[i]] < k)
-        {
-            ans = max(ans, c[i]);
-        }
-    }
-    cout << ans << endl;
-    for (i = 1; i <= n; i++)
-    {
-        adj[i].clear();
-        vis[i] = dp[i] = 0;
-    }
+    cout << "YES\n";
 }
 
 int main()

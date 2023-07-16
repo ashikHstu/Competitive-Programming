@@ -22,6 +22,7 @@ using namespace std;
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
+#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))
@@ -105,60 +106,75 @@ void print_v(vector<T> &v)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
-
-vector<int> adj[300000];
-int n, m, u, l, k, dp[300000], vis[300000];
-
-void bfs(int node)
+#define sz 300005
+vector<pair<int, int>> g[sz];
+#define int long long
+int visited[sz];
+int dis[sz];
+int bfs(int cur, int k)
 {
     queue<int> q;
-    q.push(node);
-    vis[node] = 1;
+    q.push(cur);
+    dis[cur] = 0;
+    visited[cur] = 1;
+    int res = 0;
     while (!q.empty())
     {
-        node = q.front();
+        int p = q.front();
         q.pop();
-        for (auto it : adj[node])
+        if (dis[p] == k)
         {
-            if (!vis[it])
+            continue;
+        }
+        // cout << "cur node : " << p.second.first << endl;
+        int cu = p;
+        for (int i = 0; i < g[cu].size(); i++)
+        {
+            int v = g[cu][i].first;
+            int w = g[cu][i].second;
+            res = max(res, w);
+
+            if (visited[v] == 0)
             {
-                q.push(it);
-                dp[it] = dp[node] + 1;
-                vis[it] = 1;
+
+                dis[v] = dis[p] + 1;
+                q.push(v);
+                visited[v] = 1;
             }
         }
     }
+
+    return res;
 }
 
 void solve()
 {
-    int x, y, z, i, ans = 0;
+    int n, m, u, l, k;
     cin >> n >> m >> u >> l >> k;
-    int a[m + 5], b[m + 5], c[m + 5];
-    for (i = 1; i <= m; i++)
+
+    for (int i = 0; i < m; i++)
     {
-        cin >> a[i] >> b[i] >> c[i];
-        adj[a[i]].pb(b[i]);
-        adj[b[i]].pb(a[i]);
+        int U, V, W;
+        cin >> U >> V >> W;
+        g[U].pb({V, W});
+        g[V].pb({U, W});
+        // cost[U].pb(W);
+        // cost[V].pb(W);
     }
-    bfs(u);
-    for (i = 1; i <= m; i++)
+
+    int res = bfs(u, k);
+    cout << res << endl;
+    for (int i = 0; i <= n; i++)
     {
-        if (dp[a[i]] < k || dp[b[i]] < k)
-        {
-            ans = max(ans, c[i]);
-        }
-    }
-    cout << ans << endl;
-    for (i = 1; i <= n; i++)
-    {
-        adj[i].clear();
-        vis[i] = dp[i] = 0;
+        g[i].clear();
+
+        visited[i] = dis[i] = 0;
     }
 }
 
-int main()
+int32_t main()
 {
+    freopen("path.in", "r", stdin);
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)

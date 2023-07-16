@@ -22,6 +22,7 @@ using namespace std;
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
     cout.tie(0)
+#define doshomik(x) cout << fixed << setprecision(x)
 #define TIME clock() * 1.0 / CLOCKS_PER_SEC
 #define pi acos(-1.0)
 #define mem(a, b) memset(a, b, sizeof(a))
@@ -106,55 +107,11 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 
-vector<int> adj[300000];
-int n, m, u, l, k, dp[300000], vis[300000];
-
-void bfs(int node)
-{
-    queue<int> q;
-    q.push(node);
-    vis[node] = 1;
-    while (!q.empty())
-    {
-        node = q.front();
-        q.pop();
-        for (auto it : adj[node])
-        {
-            if (!vis[it])
-            {
-                q.push(it);
-                dp[it] = dp[node] + 1;
-                vis[it] = 1;
-            }
-        }
-    }
-}
-
 void solve()
 {
-    int x, y, z, i, ans = 0;
-    cin >> n >> m >> u >> l >> k;
-    int a[m + 5], b[m + 5], c[m + 5];
-    for (i = 1; i <= m; i++)
-    {
-        cin >> a[i] >> b[i] >> c[i];
-        adj[a[i]].pb(b[i]);
-        adj[b[i]].pb(a[i]);
-    }
-    bfs(u);
-    for (i = 1; i <= m; i++)
-    {
-        if (dp[a[i]] < k || dp[b[i]] < k)
-        {
-            ans = max(ans, c[i]);
-        }
-    }
-    cout << ans << endl;
-    for (i = 1; i <= n; i++)
-    {
-        adj[i].clear();
-        vis[i] = dp[i] = 0;
-    }
+    int a, b;
+    cin >> a >> b;
+    cout << a + b << endl;
 }
 
 int main()
