@@ -186,11 +186,12 @@ void printSet(int vS)
 
 /*............................ End of Bit Manipulation Part .................... */
 
-/// vector
+/// vector and STL
 #define Lower_bound(vec, value) lower_bound(vec.begin(), vec.end(), value)
 #define Upper_bound(vec, value) upper_bound(vec.begin(), vec.end(), value)
 #define mnv(v) *min_element(all(v))
 #define mxv(v) *max_element(all(v))
+#define minHeap priority_queue<int, vector<int>, greater<int>>
 
 /// File In
 #define READ(f) freopen(f, "r", stdin)
