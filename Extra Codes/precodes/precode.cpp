@@ -106,7 +106,7 @@ void print_v(vector<T> &v)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
-
+#define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
 }
