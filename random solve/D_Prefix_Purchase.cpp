@@ -121,11 +121,13 @@ void solve()
         mn = min(mn, ar[i]);
     }
     int k;
+    int superMin = ar[n - 1];
     cin >> k;
     for (int i = n - 1; i >= 0; i--)
     {
-        if (st.find(ar[i]) == st.end())
+        if (st.find(ar[i]) == st.end() && ar[i] <= superMin)
         {
+            superMin = ar[i];
             st.insert(ar[i]);
 
             vec.pb({ar[i], i});
@@ -156,10 +158,9 @@ void solve()
             resAche++;
             last = vec[i].first;
         }
-        else if (vec[i].first - last > k)
+        else if (vec[i].first - last > k || k == 0)
             break;
-        else if (vec[i].second < res[resAche - 1].second)
-            continue;
+
         else
         {
 
@@ -170,6 +171,7 @@ void solve()
             // k = k % ex;
             last = vec[i].first;
             res.pb({exp, vec[i].second});
+            resAche++;
         }
     }
 
