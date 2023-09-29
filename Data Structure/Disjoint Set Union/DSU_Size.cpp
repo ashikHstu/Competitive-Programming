@@ -69,6 +69,10 @@ struct DSU
     }
 
     bool isSameSet(int i, int j) { return findParent(i) == findParent(j); }
+    int setSize()
+    {
+        return totalConnectedComponent;
+    }
 };
 
 /*
