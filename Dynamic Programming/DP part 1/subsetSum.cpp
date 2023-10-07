@@ -9,7 +9,7 @@ int main()
         cin >> ar[i];
 
     int dp[n + 1][w + 1];
-    dp[0][0] = 0;
+    // dp[0][0] = 1;
     for (int i = 0; i <= n; i++)
     {
         for (int j = 0; j <= w; j++)
