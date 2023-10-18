@@ -1,0 +1,1 @@
+{"name":"Local: rythmic_tune","url":"h:\\GitHub WorkPlace\\CP Codes\\random solve\\rythmic_tune.cpp","tests":[{"id":1697111110995,"input":"3\nHXAGGTABAABAABAHXHAXYXYXYXX\nABABABABA\nSAMSUNG","output":"9\n8\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"h:\\GitHub WorkPlace\\CP Codes\\random solve\\rythmic_tune.cpp","group":"local","local":true}
