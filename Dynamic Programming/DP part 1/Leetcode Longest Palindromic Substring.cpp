@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string findLongestPalindrome(string st)
+string longestPalindrome(string st)
 {
     int n = st.size();
     int dp[n + 2][n + 2];
@@ -47,7 +47,7 @@ int main()
 {
     string st;
     cin >> st;
-    cout << findLongestPalindrome(st) << endl;
+    cout << longestPalindrome(st) << endl;
 
     return 0;
 }
