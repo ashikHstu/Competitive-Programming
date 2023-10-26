@@ -1,5 +1,23 @@
+/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of God, the Most Gracious, the Most Merciful.)       */
+/*
+      Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
+      Name        : Ashikur Rahman Bhuyain (Asif)
+      Email       : ashik.cse.hstu@gmail.com
+*/
+
+/*
+   Problem link :
+   verdict :
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
+
+#define ll long long int
+#define FasterIO             \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0)
 
 struct manacher
 {
@@ -34,11 +52,11 @@ struct manacher
             }
         }
 
-        for (auto v : p)
-        {
-            cout << v << " ";
-        }
-        cout << endl;
+        //     for (auto v : p)
+        //     {
+        //         cout << v << " ";
+        //     }
+        //     cout << endl;
     }
 
     void build(string st)
@@ -95,22 +113,27 @@ struct manacher
     }
 } m;
 
-void solve(int kase)
+void solve()
 {
-    string st = "babbabbabc";
-    // cin>>st;
-    cout << st << endl;
+    string st;
+    cin >> st;
     m.build(st);
+
+    cout << m.getLongestPalindrome() << endl;
 }
 
 int main()
 {
+    FasterIO;
     int tc = 1;
-    // cin>>tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
-        solve(i);
+        solve();
     }
 
     return 0;
 }
+
+/*"Success isn't permanent, failure isn't fatal,
+                                     it's the courage to continue that counts"*/
