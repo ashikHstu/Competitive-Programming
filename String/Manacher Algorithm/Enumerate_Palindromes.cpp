@@ -6,7 +6,7 @@
 */
 
 /*
-   Problem link :
+   Problem link : https://judge.yosupo.jp/problem/enumerate_palindromes
    verdict :
 */
 #include <bits/stdc++.h>
