@@ -1,5 +1,24 @@
+/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of God, the Most Gracious, the Most Merciful.)       */
+/*
+      Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
+      Name        : Ashikur Rahman Bhuyain (Asif)
+      Email       : ashik.cse.hstu@gmail.com
+*/
+
+/*
+   Problem link : https://www.spoj.com/problems/EPALIN/
+   verdict : Accepted
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
+
+#define ll long long int
+
+#define FasterIO             \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0)
 
 struct manacher
 {
@@ -109,25 +128,28 @@ struct manacher
     {
         return palindromeMaxSuffixLength;
     }
-} m;
+};
 
-void solve(int kase)
+void solve(string st)
 {
-    string st;
-    // string st = "babbabbabc";
-    cin >> st;
-    cout << st << endl;
+    manacher m;
     m.build(st);
+    int lagbe = st.size() - m.getPalindromeMaxSuffixLength();
+    string ext = st.substr(0, lagbe);
+    reverse(ext.begin(), ext.end());
+    st += ext;
+    cout << st << endl;
 }
 
 int main()
 {
     int tc = 1;
-    // cin>>tc;
-    for (int i = 1; i <= tc; i++)
-    {
-        solve(i);
-    }
+    string st;
+    while (cin >> st)
+        solve(st);
 
     return 0;
 }
+
+/*"Success isn't permanent, failure isn't fatal,
+                                     it's the courage to continue that counts"*/

@@ -1,3 +1,14 @@
+/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of God, the Most Gracious, the Most Merciful.)       */
+/*
+      Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
+      Name        : Ashikur Rahman Bhuyain (Asif)
+      Email       : ashik.cse.hstu@gmail.com
+*/
+
+/*
+   Problem link : https://www.spoj.com/problems/NUMOFPAL/
+   verdict :
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -7,7 +18,6 @@ struct manacher
     vector<int> p;
     int longestPalindromeCenter = 0, longestPalindromeLength = 1;
     int numberOfPalindromeSubstring = 0;
-    int palindromeMaxSuffixLength = 0;
 
     void run_manacher(string st)
     {
@@ -35,10 +45,6 @@ struct manacher
             }
 
             numberOfPalindromeSubstring += ((p[i] - 1) / 2) + ((p[i] - 1) % 2 == 1);
-
-            /// Finding max Length Suffix Palindrome
-            if (palindromeMaxSuffixLength == 0 && p[i] + i >= n)
-                palindromeMaxSuffixLength = p[i] - 1;
         }
 
         // for (auto v : p)
@@ -105,29 +111,12 @@ struct manacher
     {
         return numberOfPalindromeSubstring;
     }
-    int getPalindromeMaxSuffixLength()
-    {
-        return palindromeMaxSuffixLength;
-    }
 } m;
-
-void solve(int kase)
-{
-    string st;
-    // string st = "babbabbabc";
-    cin >> st;
-    cout << st << endl;
-    m.build(st);
-}
 
 int main()
 {
-    int tc = 1;
-    // cin>>tc;
-    for (int i = 1; i <= tc; i++)
-    {
-        solve(i);
-    }
-
-    return 0;
+    string st;
+    cin >> st;
+    m.build(st);
+    cout << m.getTotalNumberOfPalindromeSubstring() << endl;
 }
