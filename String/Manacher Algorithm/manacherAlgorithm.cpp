@@ -97,8 +97,9 @@ struct manacher
 
 void solve(int kase)
 {
-    string st = "babbabbabc";
-    // cin>>st;
+    string st;
+    // string st = "babbabbabc";
+    cin >> st;
     cout << st << endl;
     m.build(st);
 }
