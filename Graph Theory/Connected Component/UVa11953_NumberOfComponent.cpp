@@ -52,7 +52,6 @@ void solve(int kase)
             }
         }
     }
-
     printf("Case %d: %d\n", kase, res);
 }
 
@@ -64,6 +63,5 @@ int main()
     {
         solve(i);
     }
-
     return 0;
 }
