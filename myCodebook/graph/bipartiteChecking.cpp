@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<int> g[2004];
-int vis[2004];
-int col[2004];
+#define N 2004
+vector<int> g[N];
+int vis[N];
+int col[N];
 void init()
 {
-    for (int i = 0; i < 2002; i++)
+    for (int i = 0; i < N; i++)
     {
         g[i].clear();
         vis[i] = 0;
@@ -49,9 +50,9 @@ void solve()
         }
     }
     if (yes)
-        cout << "No suspicious bugs found!\n";
+        cout << "Bipartite!\n";
     else
-        cout << "Suspicious bugs found!\n";
+        cout << "Not Bipartite!\n";
 }
 
 int main()

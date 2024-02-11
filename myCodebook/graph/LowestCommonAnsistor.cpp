@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 #define pb push_back
 using namespace std;
-vector<int> ar[1001];
-const int maxN = 10;
-int level[1001], LCA[1001][maxN + 1];
+#define N 10001
+vector<int> ar[N];
+const int maxN = 10; // log2(n)
+int level[N], LCA[N][maxN + 1];
 void dfs(int node, int lvl, int par)
 {
 	level[node] = lvl;

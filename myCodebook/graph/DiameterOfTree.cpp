@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<int> g[10004];
-int visited[10004];
-int dis[10004];
+#define N 10004
+vector<int> g[N];
+int visited[N];
+int dis[N];
 pair<int, int> pr;
 void dfs(int u, int d)
 {
