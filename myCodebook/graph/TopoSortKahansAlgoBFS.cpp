@@ -27,7 +27,6 @@ bool kahansAlgo(int n)
     }
     return res.size() == n;
 }
-
 int main()
 {
     int n, m;
