@@ -107,41 +107,38 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+int Neg(int v)
+{
+    return v ^ ((1 << 31) - 1);
+}
 void solve()
 {
     int n;
     cin >> n;
-    int ar[n + 2];
-    for (int i = 0; i < n; i++)
-        cin >> ar[i];
-    int f = 0, l = 0;
-    f = 1, l = 1;
-    for (int i = 1; i < n; i++)
+    map<int, int> mp;
+    vector<int> ar(n);
+    for (int &v : ar)
     {
-        if (ar[i] == ar[i - 1])
-            f++;
-        else
-            break;
+        cin >> v;
+        mp[v]++;
     }
-    for (int j = n - 2; j >= 0; j--)
+    int res = 0;
+    for (int v : ar)
     {
-        if (ar[j] == ar[j + 1])
-            l++;
-        else
-            break;
+        int ng = Neg(v);
+        if (mp[v] > 0)
+        {
+            res++;
+            mp[v]--;
+            if (mp[ng] > 0)
+                mp[ng]--;
+        }
     }
-    int total = max(f, l);
-    if (ar[0] == ar[n - 1])
-    {
-        total = min(f + l, n);
-    }
-
-    cout << n - total << endl;
+    cout << res << endl;
 }
 
 int main()
 {
-
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
