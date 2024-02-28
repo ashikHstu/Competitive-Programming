@@ -1,18 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef int item;
+typedef long long item;
 struct segTree
 {
     int size;
     vector<item> values;
-    item NEUTRAL_ELEMENT = INT_MIN;
+    item NEUTRAL_ELEMENT = 0;
     item Single(int v)
     {
         return v;
     }
     item Merge(item a, item b)
     {
-        return max(a, b);
+        return a + b;
     }
     // O(log(n)
     void init(int n)
@@ -20,9 +20,8 @@ struct segTree
         size = 1;
         while (size < n)
             size *= 2;
-        values.resize(2 * size);
+        values.resize(2 * size, 0);
     }
-
     // O(nlogn) , although said, O(n), i think O(nlogn)
     void build(vector<int> &a, int x, int lx, int rx)
     {
@@ -130,29 +129,34 @@ struct segTree
 int main()
 {
     int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
+    cin >> n;
+    vector<int> a(n), reverseForm(n), oneAr(n);
     segTree ST;
     ST.init(n);
-    ST.build(a);
-    for (int i = 0; i < q; i++)
+    int cn = n;
+    for (int i = 0; i < n; i++)
     {
-        int operation;
-        cin >> operation;
-        if (operation == 1)
-        {
-            int ind, v;
-            cin >> ind >> v;
-            ST.set(ind, v);
-        }
-        else
-        {
-            int x, l;
-            cin >> x >> l;
-            cout << ST.first_above(x, l) << endl;
-        }
+        reverseForm[i] = cn;
+        cn--;
+        oneAr[i] = 1;
+        // ST.set(i,1);
     }
+    ST.build(oneAr);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    vector<int> res;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int pos = ST.find(a[i]);
+        // cout<<"the pos is : "<<pos<<endl;
+        ST.set(pos, 0);
+        // cout<<reverseForm[pos]<<" ";
+        res.push_back(reverseForm[pos]);
+    }
+    for (int i = n - 1; i >= 0; i--)
+        cout << res[i] << " ";
+
     return 0;
 }

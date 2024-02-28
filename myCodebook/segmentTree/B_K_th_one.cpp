@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 using namespace std;
 typedef int item;
@@ -15,7 +14,6 @@ struct segTree
     {
         return a + b;
     }
-
     void init(int n)
     {
         size = 1;
@@ -42,7 +40,6 @@ struct segTree
     {
         build(a, 0, 0, size);
     }
-
     void set(int i, int v, int x, int lx, int rx)
     {
         if (rx - lx == 1)
@@ -65,7 +62,6 @@ struct segTree
     {
         set(i, v, 0, 0, size);
     }
-
     item calc(int l, int r, int x, int lx, int rx)
     {
         if (l >= rx || r <= lx)
@@ -77,12 +73,10 @@ struct segTree
         item s2 = calc(l, r, x * 2 + 2, mid, rx);
         return Merge(s1, s2);
     }
-
     item calc(int l, int r)
     {
         return calc(l, r, 0, 0, size);
     }
-
     int find(int k, int x, int lx, int rx)
     {
         if (rx - lx == 1)
@@ -101,13 +95,11 @@ struct segTree
             return find(k - daneAche, x * 2 + 2, mid, rx);
         }
     }
-
     int find(int k)
     {
         return find(k, 0, 0, size);
     }
 };
-
 int main()
 {
     int n, q;
@@ -115,11 +107,9 @@ int main()
     vector<int> a(n);
     for (int i = 0; i < n; i++)
         cin >> a[i];
-
     segTree ST;
     ST.init(n);
     ST.build(a);
-
     for (int i = 0; i < q; i++)
     {
         int op;

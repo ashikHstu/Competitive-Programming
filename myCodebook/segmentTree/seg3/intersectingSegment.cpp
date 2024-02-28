@@ -1,18 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef int item;
+typedef long long item;
 struct segTree
 {
     int size;
     vector<item> values;
-    item NEUTRAL_ELEMENT = INT_MIN;
+    item NEUTRAL_ELEMENT = 0;
     item Single(int v)
     {
         return v;
     }
     item Merge(item a, item b)
     {
-        return max(a, b);
+        return a + b;
     }
     // O(log(n)
     void init(int n)
@@ -20,9 +20,8 @@ struct segTree
         size = 1;
         while (size < n)
             size *= 2;
-        values.resize(2 * size);
+        values.resize(2 * size, 0);
     }
-
     // O(nlogn) , although said, O(n), i think O(nlogn)
     void build(vector<int> &a, int x, int lx, int rx)
     {
@@ -129,30 +128,31 @@ struct segTree
 };
 int main()
 {
-    int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
+    int n;
+    cin >> n;
     segTree ST;
-    ST.init(n);
-    ST.build(a);
-    for (int i = 0; i < q; i++)
+    map<int, int> mp;
+    ST.init(n * 2);
+    int mainRes[n + 2];
+    int ar[n * 2];
+    for (int i = 0; i < n * 2; i++)
     {
-        int operation;
-        cin >> operation;
-        if (operation == 1)
+        cin >> ar[i];
+        if (mp.find(ar[i]) == mp.end())
         {
-            int ind, v;
-            cin >> ind >> v;
-            ST.set(ind, v);
+            mp[ar[i]] = i;
+            ST.set(i, 1);
         }
         else
         {
-            int x, l;
-            cin >> x >> l;
-            cout << ST.first_above(x, l) << endl;
+            int l = mp[ar[i]];
+            ST.set(l, -1);
+            int res = ST.calc(l + 1, i);
+            mainRes[ar[i]] = res;
+            ST.set(i, 1);
         }
     }
+    for (int i = 1; i <= n; i++)
+        cout << mainRes[i] << " ";
     return 0;
 }

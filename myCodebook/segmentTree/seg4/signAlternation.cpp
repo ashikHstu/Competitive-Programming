@@ -1,18 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef int item;
+#define int long long
+typedef long long item;
 struct segTree
 {
     int size;
     vector<item> values;
-    item NEUTRAL_ELEMENT = INT_MIN;
+    item NEUTRAL_ELEMENT = 0;
     item Single(int v)
     {
         return v;
     }
     item Merge(item a, item b)
     {
-        return max(a, b);
+        return a + b;
     }
     // O(log(n)
     void init(int n)
@@ -20,9 +21,8 @@ struct segTree
         size = 1;
         while (size < n)
             size *= 2;
-        values.resize(2 * size);
+        values.resize(2 * size, 0);
     }
-
     // O(nlogn) , although said, O(n), i think O(nlogn)
     void build(vector<int> &a, int x, int lx, int rx)
     {
@@ -65,6 +65,29 @@ struct segTree
     void set(int i, int v)
     {
         set(i, v, 0, 0, size);
+    }
+    // O(logn)
+    void Add(int i, int v, int x, int lx, int rx)
+    {
+        if (rx - lx == 1)
+        {
+            values[x] = values[x] + Single(v);
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        if (i < mid)
+        {
+            Add(i, v, 2 * x + 1, lx, mid);
+        }
+        else
+        {
+            Add(i, v, 2 * x + 2, mid, rx);
+        }
+        values[x] = Merge(values[2 * x + 1], values[2 * x + 2]);
+    }
+    void Add(int i, int v)
+    {
+        Add(i, v, 0, 0, size);
     }
     /// O(logn)
     item calc(int l, int r, int x, int lx, int rx)
@@ -127,31 +150,48 @@ struct segTree
         return first_above(v, l, 0, 0, size);
     }
 };
-int main()
+int32_t main()
 {
-    int n, q;
-    cin >> n >> q;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
+    int n, m;
+    cin >> n;
     segTree ST;
-    ST.init(n);
-    ST.build(a);
-    for (int i = 0; i < q; i++)
+    ST.init(n + 2);
+    vector<int> ar(n);
+    for (int i = 0; i < n; i++)
     {
-        int operation;
-        cin >> operation;
-        if (operation == 1)
+        cin >> ar[i];
+        if (i % 2 == 1)
+            ar[i] = -ar[i];
+    }
+    ST.build(ar);
+    cin >> m;
+    for (int i = 0; i < m; i++)
+    {
+        int type;
+        cin >> type;
+        if (type == 0)
         {
             int ind, v;
             cin >> ind >> v;
+            ind = ind - 1;
+            if (ind % 2 == 1)
+            {
+                v = -v;
+            }
             ST.set(ind, v);
         }
         else
         {
-            int x, l;
-            cin >> x >> l;
-            cout << ST.first_above(x, l) << endl;
+            int l, r;
+            cin >> l >> r;
+            l--;
+            r--;
+            int res = ST.calc(l, r + 1);
+            if (l % 2 == 1)
+            {
+                res = -res;
+            }
+            cout << res << endl;
         }
     }
     return 0;
