@@ -1,14 +1,3 @@
-/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of Allah, the Most Gracious, the Most Merciful.)       */
-/*
-      Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
-      Name        : Ashikur Rahman Bhuyain (Asif)
-      Email       : ashik.cse.hstu@gmail.com
-*/
-
-/*
-   Problem link : https://codeforces.com/edu/course/2/lesson/4/4/practice/contest/274684/problem/C
-   verdict :  Accepted
-*/
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -17,7 +6,6 @@ struct item
     ll cnt;
     int freq[41];
 };
-// typedef long long item;
 struct segTree
 {
     int size;
@@ -38,19 +26,15 @@ struct segTree
         ll allcnt = a.cnt + b.cnt;
         for (int i = 0; i < 41; i++)
         {
-
             res.freq[i] = a.freq[i] + b.freq[i];
         }
-
         for (int i = 0; i < 41; i++)
         {
-
             for (int j = i + 1; j < 41; j++)
             {
                 allcnt += (a.freq[j] * b.freq[i]);
             }
         }
-
         res.cnt = allcnt;
         return res;
     }
@@ -64,7 +48,6 @@ struct segTree
             size *= 2;
         values.resize(2 * size, NEUTRAL_ELEMENT);
     }
-
     // O(nlogn) , although said, O(n), i think O(nlogn)
     void build(vector<int> &a, int x, int lx, int rx)
     {
@@ -108,7 +91,6 @@ struct segTree
     {
         set(i, v, 0, 0, size);
     }
-
     /// O(logn)
     item calc(int l, int r, int x, int lx, int rx)
     {
@@ -121,13 +103,11 @@ struct segTree
         item s2 = calc(l, r, x * 2 + 2, mid, rx);
         return Merge(s1, s2);
     }
-
     item calc(int l, int r)
     {
         return calc(l, r, 0, 0, size);
     }
 };
-
 int32_t main()
 {
     int n, q, m;
@@ -136,13 +116,11 @@ int32_t main()
     m = q;
     segTree ST;
     ST.init(n + 2);
-
     vector<int> ar(n);
     //  cout<<"the value of q : "<<q<<endl;
     for (int i = 0; i < n; i++)
         cin >> ar[i];
     ST.build(ar);
-
     while (m--)
     {
         int type;
@@ -163,9 +141,5 @@ int32_t main()
             ST.set(ind, v);
         }
     }
-
     return 0;
 }
-
-/*"Success isn't permanent, failure isn't fatal,
-                                     it's the courage to continue that counts"*/
