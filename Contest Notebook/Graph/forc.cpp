@@ -57,9 +57,18 @@ using namespace std;
 /**        End of Ex Storing                */
 
 /**------- Char Chk----------*/
-inline bool isLower(char ch) { return (ch >= 'a' && ch <= 'z'); }
-inline bool isUpper(char ch) { return (ch >= 'A' && ch <= 'Z'); }
-inline bool isDigit(char ch) { return (ch >= '0' && ch <= '9'); }
+inline bool isLower(char ch)
+{
+    return (ch >= 'a' && ch <= 'z');
+}
+inline bool isUpper(char ch)
+{
+    return (ch >= 'A' && ch <= 'Z');
+}
+inline bool isDigit(char ch)
+{
+    return (ch >= '0' && ch <= '9');
+}
 inline bool isVowel(char ch)
 {
     ch = tolower(ch);
@@ -107,36 +116,70 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
-
-int find2(int n, int ache = 0)
+int ask(int a,int b)
 {
-    if (n <= 1)
-        return n;
-    if (n == 3 || n == 6 || n == 10)
-        return 1;
-    if (n == 14)
-        return 3;
-    if (n == 5 && ache != 0)
-        return 1;
-    if (n == 5)
-        return 3;
-    if (n == 8 && ache != 0)
-        return 2;
-    if (n == 8)
-        return 3;
-
-    return 2;
+    cout<<"? "<<a<<" "<<b<<endl;
+    cout.flush();
+    int d;
+    cin>>d;
+    return d;
+}
+void print(int a,int b)
+{
+    cout<<"! "<<a+1<<" "<<b+1<<endl;
+        cout.flush();
 }
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int r1 = n / 15;
-    n = n % 15;
-    // cout << r1 << " " << n << endl;
-    cout << r1 + find2(n, r1) << endl;
+    int n,m;
+    cin>>n>>m;
+    int d1=ask(1,1);
+    int d2=ask(1,m);
+    int d3=ask(n,1);
+
+   // cout<<d1<<" "<<d2<<" "<<d3<<endl;
+    int ex=d1+d2-(m-1);
+    int ex2=(d1+d3)-(n-1);
+    //cout<<ex<<" "<<ex2<<endl;
+    if(ex2%2!=0 || ex2<0)
+    {
+        //print(n,m,ex);
+        int m1=ex/2;
+        int x1=d1-m1;
+        print(m1,x1);
+
+        return;
+    }
+    if(ex%2!=0 || ex<0)
+    {
+        //  print2(n,m,ex2);
+        int m2=ex2/2;
+        int x2=d1-m2;
+       // cout<<"m2 : "<<m2<<endl;
+        print(x2,m2);
+
+        return;
+    }
+    int m1=ex/2;
+    int x1=d1-m1;
+
+    int m2=ex2/2;
+    int x2=d1-m2;
+   //cout<<"here?"<<endl;
+    if(ask(m1+1,x1+1)==0)
+    {
+       // cout<<"zero?"<<endl;
+        print(m1,x1);
+        return;
+    }
+    else
+    {
+        print(x2,m2);
+    }
+
 }
+
 
 int main()
 {
@@ -152,3 +195,4 @@ int main()
 
 /*"Success isn't permanent, failure isn't fatal,
                                      it's the courage to continue that counts"*/
+

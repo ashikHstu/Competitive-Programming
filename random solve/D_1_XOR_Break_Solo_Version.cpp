@@ -10,9 +10,6 @@
    verdict :
 */
 
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -108,34 +105,78 @@ void print_v(vector<T> &v)
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 
-int find2(int n, int ache = 0)
+long long int highBit(long long v)
 {
-    if (n <= 1)
-        return n;
-    if (n == 3 || n == 6 || n == 10)
-        return 1;
-    if (n == 14)
-        return 3;
-    if (n == 5 && ache != 0)
-        return 1;
-    if (n == 5)
-        return 3;
-    if (n == 8 && ache != 0)
-        return 2;
-    if (n == 8)
-        return 3;
-
-    return 2;
+    if (v == 0)
+        return 0;
+    long long ct = 1;
+    while (ct * 2 <= v)
+    {
+        ct *= 2;
+    }
+    return ct; // if v==20, it will give 16 (16+4==20)
 }
 
 void solve()
 {
-    int n;
-    cin >> n;
-    int r1 = n / 15;
-    n = n % 15;
-    // cout << r1 << " " << n << endl;
-    cout << r1 + find2(n, r1) << endl;
+    long long a, b;
+    cin >> a >> b;
+    if ((a ^ b) < a)
+    {
+        cout << "1\n";
+        cout << a << " " << b << endl;
+        return;
+    }
+    if (__builtin_popcountll(a) == 1)
+    {
+        cout << "-1\n";
+        return;
+    }
+    long long int hb = highBit(b);
+    if ((a & hb) != 0)
+    {
+        cout << "1\n";
+        cout << a << " " << b << endl;
+        return;
+    }
+    vector<long long int> res, lastOnBits;
+    res.push_back(a);
+    long long int pos = -1;
+    for (long long int i = 62; i >= 0; i--)
+    {
+        if ((b & (1LL << i)) && pos == -1)
+        {
+            if (!(a & (1LL << i)) && lastOnBits.size() < 2)
+            {
+                cout << "-1\n";
+                return;
+            }
+
+            int j = lastOnBits.back();
+            a &= ~(1LL << j);
+            lastOnBits.pop_back();
+            a |= (1LL << i);
+            res.push_back(a);
+            cout << 2 << endl;
+            cout << res[0] << " " << a << " " << b << endl;
+            return;
+        }
+        if ((a & (1LL << i)) && pos == -1)
+        {
+            lastOnBits.push_back(i);
+            continue;
+        }
+    }
+
+    if (a != b)
+    {
+        cout << "a b: " << a << ", " << b << endl;
+        cout << "problem?\n";
+        return;
+    }
+
+    cout << 1 << endl;
+    cout << res[0] << " " << b << endl;
 }
 
 int main()

@@ -107,35 +107,8 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
-
-int find2(int n, int ache = 0)
-{
-    if (n <= 1)
-        return n;
-    if (n == 3 || n == 6 || n == 10)
-        return 1;
-    if (n == 14)
-        return 3;
-    if (n == 5 && ache != 0)
-        return 1;
-    if (n == 5)
-        return 3;
-    if (n == 8 && ache != 0)
-        return 2;
-    if (n == 8)
-        return 3;
-
-    return 2;
-}
-
 void solve()
 {
-    int n;
-    cin >> n;
-    int r1 = n / 15;
-    n = n % 15;
-    // cout << r1 << " " << n << endl;
-    cout << r1 + find2(n, r1) << endl;
 }
 
 int main()
