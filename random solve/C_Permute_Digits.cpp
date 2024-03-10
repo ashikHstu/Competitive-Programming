@@ -107,9 +107,55 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+int cnt[10] = {0};
+string res;
+int tight;
+string a, b;
+int hoiche;
+bool bakiFillDone;
+void bakiFill()
+{
+    for (int i = hoiche; i < b.size(); i++)
+    {
+        for (int j = 9; j >= 0; j--)
+        {
+            if (cnt[j] > 0)
+            {
+                res.push_back(j + '0');
+                cnt[j]--;
+                hoiche++;
+                break;
+            }
+        }
+    }
+    bakiFillDone = true;
+}
+
+void pichao()
+{
+    bool hoicheKi = false;
+    while (!hoicheKi)
+    {
+        int kiChilo = res.back() - '0';
+        cnt[kiChilo]++;
+        hoiche--;
+        res.pop_back();
+        for (int i = kiChilo - 1; i >= 0; i--)
+        {
+            if (cnt[i] > 0)
+            {
+                hoicheKi = true;
+                res.push_back(i + '0');
+                cnt[i]--;
+                break;
+            }
+        }
+    }
+}
+
 void solve()
 {
-    string a, b;
+    tight = true;
     cin >> a >> b;
     if (a.size() < b.size())
     {
@@ -118,16 +164,59 @@ void solve()
         cout << a << endl;
         return;
     }
+
+    for (char ch : a)
+    {
+        cnt[ch - '0']++;
+    }
+
+    for (int i = 0; i < a.size(); i++)
+    {
+        bool filled = false;
+        for (int j = 9; j >= 0; j--)
+        {
+            if (cnt[j] > 0)
+            {
+                if ((b[i] - '0') > j)
+                {
+                    tight = false;
+                    res.push_back(j + '0');
+                    hoiche++;
+                    cnt[j]--;
+                    bakiFill();
+                    filled = true;
+                }
+                else if ((b[i] - '0') == j)
+                {
+                    res.push_back(j + '0');
+                    hoiche++;
+                    cnt[j]--;
+                    filled = true;
+                }
+            }
+            if (filled)
+                break;
+            if (bakiFillDone)
+                break;
+        }
+        if (bakiFillDone)
+            break;
+        if (!filled)
+        {
+            pichao();
+            bakiFill();
+            break;
+        }
+    }
+
+    cout << res << endl;
 }
 
 int main()
 {
     int tc = 1;
     // cin >> tc;
-    for (int i = 1; i <= tc; i++)
-    {
-        solve();
-    }
+    solve();
 
     return 0;
 }
