@@ -172,14 +172,6 @@ void solve()
 int main()
 {
 
-    cout << 10000 << endl;
-    for (int i = 0; i < 10000; i++)
-    {
-        cout << 3 << endl;
-        cout << ">><" << endl;
-        cout << "><<" << endl;
-    }
-    return 0;
     int tc = 1;
     cin >> tc;
     for (int i = 1; i <= tc; i++)
