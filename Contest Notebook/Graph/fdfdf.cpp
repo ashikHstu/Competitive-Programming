@@ -2,6 +2,7 @@
 using namespace std;
 int main()
 {
+    freopen("output.txt", "w", stdout);
      cout << 10000 << endl;
     for (int i = 0; i < 10000; i++)
     {
