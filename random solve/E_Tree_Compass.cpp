@@ -16,7 +16,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long int
+#define ll long long
+#define int ll
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -107,11 +108,104 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
-void solve()
+
+#define N 10004
+vector<int> g[N];
+int visited[N];
+int dis[N];
+pair<int, int> pr;
+void dfs(int u, int d)
 {
+    if (d > pr.second)
+        pr = {u, d};
+    visited[u] = 1;
+    dis[u] = d;
+    for (int v : g[u])
+    {
+        if (!visited[v])
+            dfs(v, d + 1);
+    }
 }
 
-int main()
+int lagbe;
+int dorkar;
+bool ook;
+bool findMiddle(int u, int d)
+{
+    if (u == pr.first)
+        return true;
+    visited[u] = 1;
+    dis[u] = d;
+    bool paichi = false;
+    for (int v : g[u])
+    {
+        if (!visited[v])
+            paichi = (paichi | (findMiddle(v, d + 1)));
+    }
+    if (paichi && d == lagbe)
+    {
+        ook = true;
+        // cout << "lagbe ki : " << d << endl;
+        // cout << "cur : " << u << endl;
+        dorkar = u;
+    }
+
+    return paichi;
+}
+
+void solve()
+{
+
+    int n, u, v;
+    cin >> n;
+    for (int i = 0; i <= n; i++)
+    {
+        g[i].clear();
+        visited[i] = 0;
+    }
+    if (n == 1)
+    {
+        cout << "1\n";
+        cout << "1 0\n";
+        return;
+    }
+
+    for (int i = 1; i < n; i++)
+    {
+        cin >> u >> v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+    pr = {0, -1};
+    dfs(1, 0);
+    int secondCall = pr.first;
+    pr = {0, -1};
+    for (int i = 0; i <= n; i++)
+        visited[i] = 0;
+    dfs(secondCall, 0);
+    // cout << secondCall << " " << pr.first << endl;
+
+    for (int i = 0; i <= n; i++)
+        visited[i] = 0;
+    lagbe = CEIL((pr.second), 2);
+    // lagbe = pr.second / 2;
+    ook = false;
+    findMiddle(secondCall, 0);
+
+    // cout << pr.second << endl;
+
+    // cout << "middle : " << dorkar << endl;
+
+    int res = CEIL(pr.second, 2);
+
+    cout << res + 1 << endl;
+    for (int i = 0; i <= res; i++)
+    {
+        cout << dorkar << " " << i << endl;
+    }
+}
+
+int32_t main()
 {
     int tc = 1;
     cin >> tc;
