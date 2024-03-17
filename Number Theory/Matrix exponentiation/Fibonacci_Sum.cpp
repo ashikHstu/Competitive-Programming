@@ -1,6 +1,8 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
+
 const ll mod = 1e9 + 7;
 const int sz = 2;
 
@@ -63,11 +65,29 @@ ll Fib(int n)
     return (res.m[0][0] + res.m[0][1]) % mod;
 }
 
-int32_t main()
+ll fiboSum(int n)
 {
-
-    int n;
-    cin >> n;
-    for (int i = 1; i <= n; i++)
-        cout << Fib(i) << "\n";
+    return (Fib(n + 2) - 1 + mod) % mod;
 }
+
+void solve()
+{
+    int l, r;
+    cin >> l >> r;
+    cout << (Fib(r + 2) - Fib(l + 1) + mod) % mod << endl;
+}
+
+int main()
+{
+    int tc = 1;
+    cin >> tc;
+    for (int i = 1; i <= tc; i++)
+    {
+        solve();
+    }
+
+    return 0;
+}
+
+/*"Success isn't permanent, failure isn't fatal,
+                                     it's the courage to continue that counts"*/
