@@ -107,14 +107,53 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+
+int n, m, g;
+ll ar[5005];
+ll csum[5005];
+ll dp[5005][5005];
+ll fun(int cur, int nichi)
+{
+    if (nichi == g)
+        return 0;
+    if (cur > n)
+    {
+        return INT_MIN;
+    }
+    if (dp[cur][nichi] != -1)
+        return dp[cur][nichi];
+
+    ll nei = csum[cur + m - 1] - csum[cur - 1];
+    ll niye = nei + fun(cur + m, nichi + 1);
+    ll baki = n - cur + 1;
+    ll lagbe = g - nichi;
+    if (lagbe * m < baki)
+    {
+        ll naNiye = fun(cur + 1, nichi);
+        niye = max(niye, naNiye);
+    }
+
+    return dp[cur][nichi] = niye;
+}
+
 void solve()
 {
+    memset(dp, -1, sizeof(dp));
+    cin >> n >> m >> g;
+    csum[0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> ar[i];
+        csum[i] = csum[i - 1] + ar[i];
+    }
+
+    cout << fun(1, 0) << endl;
 }
 
 int main()
 {
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     for (int i = 1; i <= tc; i++)
     {
         solve();
