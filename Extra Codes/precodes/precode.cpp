@@ -1,4 +1,4 @@
-/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of God, the Most Gracious, the Most Merciful.)       */
+/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of Allah, the Most Gracious, the Most Merciful.)       */
 /*
       Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
       Name        : Ashikur Rahman Bhuyain (Asif)
@@ -16,7 +16,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long int
+#define ll long long
+#define int long long
 
 #define FasterIO             \
     ios::sync_with_stdio(0); \
@@ -47,9 +48,6 @@ using namespace std;
 #define nl printf("\n")
 // #define priority_queue <int, vector<int>, greater<int>> minHeap
 /** STL Functions     */
-// pbds
-#define fbo(ind) find_by_order(ind)
-#define ook(val) order_of_key(val)
 
 /**      Extra storing              */
 #define UNIQUE(v) (v).erase(unique(all(v)), (v).end())
@@ -111,7 +109,7 @@ void solve()
 {
 }
 
-int main()
+int32_t main()
 {
     int tc = 1;
     cin >> tc;
