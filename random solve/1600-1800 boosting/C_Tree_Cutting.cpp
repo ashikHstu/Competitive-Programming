@@ -107,8 +107,80 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+
+#define sz 100005
+vector<int> g[sz];
+int visited[sz];
+int in[sz], out[sz];
+int sze[sz];
+int timer;
+int totalCut = 0;
+void dfs(int src, int par, int lagbe)
+{
+    visited[src] = 1;
+    timer++;
+    sze[src] = 1;
+    in[src] = timer;
+    for (int v : g[src])
+    {
+        if (visited[v] == 0)
+        {
+            dfs(v, src, lagbe);
+            sze[src] += sze[v];
+        }
+    }
+
+    if (sze[src] >= lagbe)
+    {
+        totalCut++;
+        sze[src] = 0;
+    }
+
+    timer++;
+    out[src] = timer;
+    visited[src] = 2;
+}
+
 void solve()
 {
+    int n, k;
+    cin >> n >> k;
+    for (int i = 0; i <= n; i++)
+    {
+        g[i].clear();
+        visited[i] = 0;
+    }
+    int l = 1, r = n;
+    for (int i = 1; i < n; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+    int res = 1;
+    while (l <= r)
+    {
+        int mid = (l + r) / 2;
+        for (int i = 0; i <= n; i++)
+        {
+            visited[i] = 0;
+            sze[i] = 0;
+        }
+        totalCut = 0;
+        dfs(1, -1, mid);
+        if (totalCut > k)
+        {
+            res = mid;
+            l = mid + 1;
+        }
+        else
+        {
+            r = mid - 1;
+        }
+    }
+
+    cout << res << endl;
 }
 
 int main()
