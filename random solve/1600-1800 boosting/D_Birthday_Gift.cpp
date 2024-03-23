@@ -107,73 +107,49 @@ void print_v(vector<T> &v)
 // const int fx[]={-2, -2, -1, -1,  1,  1,  2,  2};  // Knights Move
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
-#define minHeap priority_queue<int, vector<int>, greater<int>>
-int n, k;
-int ar[200000 + 5], xar[200000 + 5];
-
-bool check(int a, int b)
-{
-    if ((xar[b] ^ xar[a - 1]) <= k)
-        return true;
-    return false;
-}
-
-int txor(int a, int b)
-{
-    return (xar[b] ^ xar[a - 1]);
-}
-
-int tor(int a, int b, int c)
-{
-    int res = (a | b);
-    res = (res | c);
-    return res;
-}
-
-int findRes(int st, int ed)
-{
-    if ((xar[ed] ^ xar[st - 1]) > k)
-        return -1;
-    int curId = 1;
-    int soFar = 0;
-    int curRes = 1;
-    for (int i = st; i < ed; i++)
-    {
-        if (check(curId, i) && check(i + 1, ed))
-        {
-            if (tor(soFar, txor(curId, i), txor(i + 1, ed)) <= k)
-            {
-                curRes++;
-                soFar = (soFar | (xar[i] ^ xar[curId - 1]));
-                curId = i + 1;
-                // cout << "giving break at : " << i << endl;
-            }
-        }
-    }
-    return curRes;
-}
-
+#define isOn(S, j) (S & (1 << j))
+#define onBit(S, j) (S |= (1 << j))
+#define clearBit(S, j) (S &= ~(1 << j)) // turn off j'th bit
 void solve()
 {
-    cin >> n >> k;
-    xar[0] = 0;
+    int n, x;
+    cin >> n >> x;
+    int ar[n + 2];
     for (int i = 1; i <= n; i++)
-    {
         cin >> ar[i];
-        xar[i] = (xar[i - 1] ^ ar[i]);
-    }
-    if (xar[n] > k)
+    x++;
+    int k = 0, res = -1;
+    for (int i = 30; i >= 0; i--)
     {
-        cout << "-1\n";
-        return;
-    }
-    if (n == 1)
-    {
-        cout << "1\n";
-        return;
-    }
+        if (isOn(x, i))
+        {
+            int cur = 0;
+            onBit(k, i);
 
-    int res = findRes(1, n);
+            int tres = 0;
+            for (int j = 1; j < n; j++)
+            {
+                cur ^= ar[j];
+                if ((cur & k) == 0)
+                {
+                    tres++;
+                    cur = 0;
+                }
+            }
+            cur ^= ar[n];
+            if ((cur & k) == 0)
+            {
+                tres++;
+                res = max(res, tres);
+            }
+
+            clearBit(k, i);
+        }
+        else
+        {
+            onBit(k, i);
+        }
+    }
 
     cout << res << endl;
 }

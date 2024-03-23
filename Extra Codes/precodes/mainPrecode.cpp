@@ -140,7 +140,7 @@ void print_v(vector<T> &v)
 /*  ..................... Bit Manipulation...................................*/
 
 #define isOn(S, j) (S & (1 << j))
-
+#define onBit(S, j) (S |= (1 << j))
 #define clearBit(S, j) (S &= ~(1 << j)) // turn off j'th bit
 #define toggleBit(S, j) (S ^= (1 << j))
 #define lowBit(S) (S & (-S)) // if S==20, it will give 4 (16+4==20)
