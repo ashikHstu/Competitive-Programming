@@ -1,24 +1,7 @@
-/**        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ (In the name of Allah, the Most Gracious, the Most Merciful.)       */
-/*
-      Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
-      Name        : Ashikur Rahman Bhuyain (Asif)
-      Email       : ashik.cse.hstu@gmail.com
-*/
-
-/*
-   Problem link :
-   verdict :
-*/
-
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
 #include <bits/stdc++.h>
 using namespace std;
-
 #define ll long long
 #define int long long
-
 #define FasterIO             \
     ios::sync_with_stdio(0); \
     cin.tie(0);              \
@@ -117,9 +100,5 @@ int32_t main()
     {
         solve();
     }
-
     return 0;
 }
-
-/*"Success isn't permanent, failure isn't fatal,
-                                     it's the courage to continue that counts"*/
