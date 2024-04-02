@@ -139,9 +139,6 @@ void solve()
         }
         finalSt.push_back(st[i]);
     }
-
-    // cout << "finalST: " << finalSt << endl;
-
     cout << finalSt[pos - 1];
     return;
 }
@@ -154,7 +151,6 @@ int32_t main()
     {
         solve();
     }
-
     return 0;
 }
 
