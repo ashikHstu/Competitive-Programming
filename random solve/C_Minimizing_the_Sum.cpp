@@ -89,21 +89,42 @@ void print_v(vector<T> &v)
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 int n, k;
-int ar[300005+ 2];
+int ar[300005 + 2];
 int dp[300005][15];
+
+int fun(int cur, int baki)
+{
+    if (cur == n)
+        return 0;
+    if (dp[cur][baki] != -1)
+        return dp[cur][baki];
+    int res = ar[cur] + fun(cur + 1, baki);
+    for (int i = cur + 1; i <= cur + baki && i < n; i++)
+    {
+        int tr1 = (i - cur + 1) * ar[cur] + fun(i + 1, baki - i + cur);
+        int tr2 = (i - cur) * ar[i] + fun(i, baki - i + cur);
+        res = min3(res, tr1, tr2);
+    }
+    return dp[cur][baki] = res;
+}
 
 void solve()
 {
-    
+
     cin >> n >> k;
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j <= k; j++)
+            dp[i][j] = -1;
+    }
     int sum = 0;
-    
+
     for (int i = 0; i < n; i++)
     {
         cin >> ar[i];
         sum += ar[i];
     }
-    int kombe = 0;
+    cout << fun(0, k) << endl;
 }
 
 int32_t main()
