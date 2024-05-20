@@ -88,8 +88,92 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+int a, b;
+bool isPossible(string st)
+{
+    if (st.size() == 2)
+    {
+        if (st[0] == st[1])
+            return true;
+        return false;
+    }
+    if (st.size() < 4)
+        return false;
+    a = 0;
+    b = 0;
+    for (char ch : st)
+    {
+        if (ch == 'N')
+            a++;
+        if (ch == 'S')
+            a--;
+        if (ch == 'E')
+            b++;
+        if (ch == 'W')
+            b--;
+    }
+
+    if ((abs(a) % 2 == 0) && (abs(b) % 2 == 0))
+        return true;
+    return false;
+}
+
 void solve()
 {
+    int n;
+    cin >> n;
+    string st;
+    cin >> st;
+    if (!isPossible(st))
+    {
+        cout << "NO\n";
+        return;
+    }
+    int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (st[i] == 'E')
+            c1++;
+        else if (st[i] == 'W')
+            c2++;
+        else if (st[i] == 'N')
+            c3++;
+        else if (st[i] == 'S')
+            c4++;
+    }
+    int eh = c1 / 2, wh = c2 / 2, nh = c3 / 2, sh = c4 / 2;
+    for (int i = 0; i < n; i++)
+    {
+        if (st[i] == 'E')
+        {
+            if (eh > 0)
+                st[i] = 'R', eh--;
+            else
+                st[i] = 'H';
+        }
+        else if (st[i] == 'W')
+        {
+            if (wh > 0)
+                st[i] = 'R', wh--;
+            else
+                st[i] = 'H';
+        }
+        else if (st[i] == 'N')
+        {
+            if (nh > 0)
+                st[i] = 'H', nh--;
+            else
+                st[i] = 'R';
+        }
+        else if (st[i] == 'S')
+        {
+            if (sh > 0)
+                st[i] = 'H', sh--;
+            else
+                st[i] = 'R';
+        }
+    }
+    cout << st << endl;
 }
 
 int32_t main()
