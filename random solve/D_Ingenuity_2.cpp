@@ -90,24 +90,6 @@ void print_v(vector<T> &v)
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
-    int n;
-    cin >> n;
-    int ar[n + 2];
-    for (int i = 0; i < n; i++)
-        cin >> ar[i];
-    map<pair<int, int>, int> ab, bc, ac;
-    map<tuple<int, int, int>, int> abc;
-    int res = 0;
-    for (int i = 0; i < n - 2; i++)
-    {
-        int tr = ab[{ar[i], ar[i + 1]}] + bc[{ar[i + 1], ar[i + 2]}] + ac[{ar[i], ar[i + 2]}] - 3 * abc[{ar[i], ar[i + 1], ar[i + 2]}];
-        res += tr;
-        ab[{ar[i], ar[i + 1]}]++;
-        bc[{ar[i + 1], ar[i + 2]}]++;
-        ac[{ar[i], ar[i + 2]}]++;
-        abc[{ar[i], ar[i + 1], ar[i + 2]}]++;
-    }
-    cout << res << endl;
 }
 
 int32_t main()
