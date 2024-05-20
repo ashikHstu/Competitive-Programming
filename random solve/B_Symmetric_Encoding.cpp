@@ -88,50 +88,36 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+vector<char> sortedUnq(string st)
+{
+    set<char> s;
+    vector<char> res;
+    for (char ch : st)
+    {
+        if (s.find(ch) == s.end())
+        {
+            res.push_back(ch);
+        }
+        s.insert(ch);
+    }
+    sort(res.rbegin(), res.rend());
+    return res;
+}
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
-    vector<int> ar(n);
-
-    int l = 10000000000000LL, r = 10000000000000LL;
-    for (int &v : ar)
+    int n;
+    cin >> n;
+    string st;
+    cin >> st;
+    vector<char> unq = sortedUnq(st);
+    map<char, char> mp;
+    for (int i = 0; i < unq.size(); i++)
     {
-        cin >> v;
-        l = min(l, v);
+        mp[unq[i]] = unq[unq.size() - i - 1];
     }
-    int res = l * n - (n - 1);
-    while (l <= r)
-    {
-        int mid = (l + r) / 2;
-        int lagbe = 0;
-        int ex = 0;
-        for (int i = 0; i < n; i++)
-        {
-            if (ar[i] < mid)
-            {
-                lagbe += (mid - ar[i]);
-            }
-            else if (ar[i] > mid)
-                ex++;
-        }
-        if (lagbe <= k)
-        {
-            ex += (k - lagbe);
-            ex = min(ex, n);
-            // cout << "mid : " << mid << ", ex : " << ex << endl;
-            // cout << "mid*n-(n-1) : " << mid * n - (n - 1) << endl;
-            int tr = (mid * n - (n - 1)) + ex;
-            // cout << "tr : " << tr << endl;
-            res = max(res, tr);
-            l = mid + 1;
-        }
-        else
-        {
-            r = mid - 1;
-        }
-    }
-    cout << res << endl;
+    for (char ch : st)
+        cout << mp[ch];
+    cout << endl;
 }
 
 int32_t main()
