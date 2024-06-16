@@ -90,6 +90,71 @@ void print_v(vector<T> &v)
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
+    int n, k;
+    cin >> n >> k;
+    vector<int> ar(n);
+    for (int &v : ar)
+        cin >> v;
+
+    if (n == 1)
+    {
+        cout << 0 << endl;
+        return;
+    }
+
+    int mxNext[n + 2], mxPrev[n + 2], prevSum[n + 2];
+    mxPrev[0] = 0;
+    mxPrev[1] = ar[0] + k;
+    int mx = ar[0] + k;
+    prevSum[0] = 0;
+    prevSum[1] = k + ar[0];
+    for (int i = 2; i < n; i++)
+    {
+        mx = max(mx, ar[i - 1]);
+        prevSum[i] = prevSum[i - 1] + ar[i - 1];
+        mxPrev[i] = mx;
+    }
+    mxNext[n - 1] = 0;
+    mxNext[n - 2] = ar[n - 1];
+    mx = ar[n - 1];
+    for (int i = n - 3; i >= 0; i--)
+    {
+        mx = max(mx, ar[i + 1]);
+        mxNext[i] = mx;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (i == 0)
+        {
+            if (mxNext[i] <= ar[i] + k)
+            {
+                cout << "0 ";
+            }
+            else
+            {
+                cout << "1 ";
+            }
+            continue;
+        }
+
+        if (mxPrev[i] < ar[i] && mxNext[i] <= ar[i])
+        {
+            cout << "0 ";
+            continue;
+        }
+
+        if (prevSum[i] + ar[i] >= mxNext[i])
+        {
+            cout << i << " ";
+            continue;
+        }
+        else
+        {
+            cout << i + 1 << " ";
+        }
+    }
+    cout << endl;
 }
 
 int32_t main()

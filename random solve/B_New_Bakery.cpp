@@ -88,8 +88,31 @@ void print_v(vector<T> &v)
 // const int fy[]={-1,  1, -2,  2, -2,  2, -1,  1}; // Knights Move
 /*------------------------------------------------*/
 #define minHeap priority_queue<int, vector<int>, greater<int>>
+
+int Lagbe(int b, int a)
+{
+    int s1 = (b * (b + 1)) / 2;
+    //  a--;
+    int s2 = (a * (a + 1)) / 2;
+    return s1 - s2;
+}
+
 void solve()
 {
+    int n, a, b;
+    cin >> n >> a >> b;
+    if (b <= a)
+    {
+        cout << a * n << endl;
+        return;
+    }
+    int dif = b - a;
+    if (dif > n)
+        dif = n;
+    int baki = n - dif;
+    int lage = Lagbe(b, b - dif);
+    // cout << "lagbe : " << lage << endl;
+    cout << Lagbe(b, b - dif) + (baki * a) << endl;
 }
 
 int32_t main()

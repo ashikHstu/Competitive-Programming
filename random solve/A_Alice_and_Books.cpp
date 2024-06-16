@@ -90,6 +90,16 @@ void print_v(vector<T> &v)
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
+    int n;
+    cin >> n;
+    int ar[n + 2];
+    for (int i = 0; i < n; i++)
+        cin >> ar[i];
+    int first = 0;
+    int mx = 0;
+    for (int i = 0; i < n - 1; i++)
+        mx = max(mx, ar[i]);
+    cout << mx + ar[n - 1] << endl;
 }
 
 int32_t main()

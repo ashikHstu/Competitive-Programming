@@ -90,6 +90,46 @@ void print_v(vector<T> &v)
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
+    int n, k;
+    cin >> n >> k;
+    if (k % 2 == 1)
+    {
+        cout << "No\n";
+        return;
+    }
+    vector<int> vec;
+    for (int i = 1; i <= n; i++)
+        vec.push_back(i);
+    int last = n - 1;
+    for (int i = 0; i < n / 2; i++)
+    {
+        if (k <= 0)
+            break;
+        if (k >= last * 2)
+        {
+            k -= (last * 2);
+            swap(vec[i], vec[n - i - 1]);
+        }
+        else
+        {
+            int hlf = k / 2;
+            swap(vec[i], vec[i + hlf]);
+            k = 0;
+            break;
+        }
+        last -= 2;
+    }
+    if (k == 0)
+    {
+        cout << "Yes\n";
+        for (int i = 0; i < n; i++)
+            cout << vec[i] << " ";
+        cout << endl;
+    }
+    else
+    {
+        cout << "No\n";
+    }
 }
 
 int32_t main()
