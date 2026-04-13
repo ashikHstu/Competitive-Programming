@@ -90,24 +90,33 @@ void print_v(vector<T> &v)
 #define minHeap priority_queue<int, vector<int>, greater<int>>
 void solve()
 {
-    int n;cin>>n;
+    int n,m;cin>>n>>m;
     vector<int>vec(n);
     for(int &v:vec)cin>>v;
-    sort(all(vec));
-    reverse(all(vec));
-    int ok=true;
+    vector<int>mod_vec(n);
+    for(int i=0;i<n;i++)
+    {
+        mod_vec[i]= (m - vec[i])%m;
+    }
+    sort(all(mod_vec));
+    int cnt=1;
     for(int i=1;i<n;i++)
     {
-        if(vec[i-1]==vec[i])
-        {
-            ok=false;
-            break;
+        if(vec[i]==vec[i-1]){
+            cnt++;
+            if(cnt>=m)
+            {
+                cout<<"NO\n";
+                return;
+            }
+        }
+        else{
+            cnt=1;
         }
     }
-    if(!ok)cout<<"-1"<<endl;
-    else {
-        for(int v:vec)cout<<v<<" ";cout<<endl;
-    }
+    cout<<"YES\n";
+    
+
 
 }
 
