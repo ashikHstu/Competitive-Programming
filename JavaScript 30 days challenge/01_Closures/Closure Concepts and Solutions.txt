@@ -1,0 +1,208 @@
+==============================================================================
+                    JAVASCRIPT CLOSURES - CONCEPTS & SOLUTIONS
+==============================================================================
+
+WHAT IS A CLOSURE?
+------------------
+A closure is a function that has access to variables from its outer (enclosing) 
+scope, even after the outer function has finished executing. In simpler terms, 
+a closure "remembers" the environment in which it was created.
+
+Key Characteristics:
+1. A closure is created when a function is defined inside another function
+2. The inner function has access to:
+   - Its own variables
+   - The outer function's variables
+   - Global variables
+3. The inner function retains access to the outer function's variables even 
+   after the outer function has returned
+
+Why Closures are Useful:
+- Data encapsulation and privacy
+- Function factories (creating specialized functions)
+- Maintaining state in asynchronous operations
+- Creating modules and revealing patterns
+- Implementing currying and partial application
+
+Syntax Example:
+    function outer() {
+        let count = 0;
+        function inner() {
+            count++;
+            return count;
+        }
+        return inner;
+    }
+    const counter = outer();
+    counter(); // 1
+    counter(); // 2
+
+
+==============================================================================
+PROBLEM 1: 2667. Create Hello World Function
+==============================================================================
+
+CONCEPT: Higher-Order Functions & Rest Parameters
+-------------------------------------------------
+This problem demonstrates:
+1. Higher-order function: A function that returns another function
+2. Rest parameters (...args): Collects all arguments into an array
+3. Closure: The returned function is a closure that could access outer scope
+
+The rest parameter (...args) is used when you want a function to accept any 
+number of arguments. It must be the last parameter in the function definition.
+
+SOLUTION:
+---------
+var createHelloWorld = function() {
+    return function(...args) {
+        return "Hello World";
+    }
+};
+
+// Usage:
+const f = createHelloWorld();
+f(); // "Hello World"
+f({}, null, 42); // "Hello World" (arguments are ignored)
+
+EXPLANATION:
+- createHelloWorld() is the outer function that runs once
+- It returns an inner function that uses ...args (rest parameter)
+- The inner function always returns "Hello World" regardless of arguments
+- This demonstrates a function factory pattern
+
+
+==============================================================================
+PROBLEM 2: 2620. Counter
+==============================================================================
+
+CONCEPT: Closure with State Persistence
+---------------------------------------
+This problem demonstrates how closures can maintain state between function calls.
+The key insight is:
+- The outer function (createCounter) runs ONCE when you create the counter
+- The inner function (returned function) runs EVERY TIME you call counter()
+- The inner function "remembers" the variable n from the outer scope
+
+This is a classic closure pattern where the inner function maintains access to 
+and can modify variables from the outer function's scope.
+
+SOLUTION:
+---------
+var createCounter = function(n) {
+    return function() {
+        n = n + 1;
+        return n - 1;
+    };
+};
+
+// Usage:
+const counter = createCounter(10);
+counter(); // 10 (n becomes 11)
+counter(); // 11 (n becomes 12)
+counter(); // 12 (n becomes 13)
+
+EXPLANATION:
+- createCounter(10) stores n = 10 inside the closure
+- Each call to counter() increments n and returns the previous value
+- The variable n persists between calls because of the closure
+- Outer function = setup (runs once)
+- Inner function = execution (runs every call)
+
+
+==============================================================================
+PROBLEM 3: 2704. To Be Or Not To Be
+==============================================================================
+
+CONCEPT: Closure with Object Methods
+------------------------------------
+This problem demonstrates:
+1. Returning an object with methods from a function
+2. Methods using closure to access the outer function's variables
+3. Strict equality (===) vs loose equality (==)
+
+The expect() function returns an object with two methods (toBe and notToBe).
+Both methods use closure to remember the original value passed to expect().
+
+SOLUTION:
+---------
+var expect = function(val) {
+    return {
+        toBe: function(insideVal) {
+            if (val === insideVal) return true;
+            throw new Error("Not Equal");
+        },
+        notToBe: function(insideVal) {
+            if (val !== insideVal) return true;
+            throw new Error("Equal");
+        }
+    };
+};
+
+// Usage:
+expect(5).toBe(5);      // true
+expect(5).notToBe(5);   // throws "Equal"
+expect(5).toBe("5");    // throws "Not Equal" (strict comparison)
+
+EXPLANATION:
+- expect(val) creates an object with two methods
+- Both toBe() and notToBe() use closure to access 'val'
+- Uses strict equality (===, !==) for type-safe comparisons
+- This pattern is commonly used in testing frameworks like Jest
+
+
+==============================================================================
+PROBLEM 4: 2665. Counter II
+==============================================================================
+
+CONCEPT: Closure with Multiple Methods and State
+-------------------------------------------------
+This problem demonstrates:
+1. Returning an object with multiple methods from a closure
+2. Multiple methods sharing and modifying the same state
+3. Using 'let' for mutable state vs 'const' for immutable references
+
+The createCounter function returns an object with three methods (increment, 
+decrement, reset) that all share access to the same 'cur' variable through closure.
+
+SOLUTION:
+---------
+var createCounter = function(init) {
+    let cur = init;
+    return {
+        increment: function() {
+            cur = cur + 1;
+            return cur;
+        },
+        decrement: function() {
+            cur = cur - 1;
+            return cur;
+        },
+        reset: function() {
+            cur = init;
+            return cur;
+        }
+    };
+};
+
+// Usage:
+const counter = createCounter(5);
+counter.increment(); // 6
+counter.increment(); // 7
+counter.decrement(); // 6
+counter.reset();     // 5
+counter.decrement(); // 4
+
+EXPLANATION:
+- createCounter(init) stores the initial value and current value in closure
+- All three methods share access to the same 'cur' variable
+- increment() and decrement() modify the state
+- reset() restores the original value from 'init'
+- Uses 'let' for mutable state (cur) which is block-scoped and modern
+
+KEY POINTS:
+- var → old, unsafe, function scoped (avoid)
+- let → modern, block scoped, mutable (use for changing values)
+- const → modern, block scoped, immutable reference (use for fixed references)
+
+==============================================================================

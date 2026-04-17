@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Closures - Concepts & Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .section-header .problem-number {
+            font-size: 0.9em;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-body {
+            padding: 30px;
+        }
+
+        .concept-box {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .concept-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .concept-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .concept-box ul li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .concept-box ul li::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 1em;
+            line-height: 1.8;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .code-block .keyword {
+            color: #569cd6;
+        }
+
+        .code-block .function {
+            color: #dcdcaa;
+        }
+
+        .code-block .string {
+            color: #ce9178;
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+        }
+
+        .code-block .number {
+            color: #b5cea8;
+        }
+
+        .code-block .variable {
+            color: #9cdcfe;
+        }
+
+        .code-block .operator {
+            color: #d4d4d4;
+        }
+
+        .code-block .punctuation {
+            color: #d4d4d4;
+        }
+
+        .usage-section {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .usage-section h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .usage-section code {
+            background: #c8e6c9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .usage-line {
+            margin: 8px 0;
+            padding: 5px 10px;
+            background: #c8e6c9;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            display: inline-block;
+        }
+
+        .explanation-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .explanation-box h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .explanation-box p {
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+
+        .key-points {
+            background: #fce4ec;
+            border: 1px solid #f48fb1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .key-points h4 {
+            color: #c2185b;
+            margin-bottom: 10px;
+        }
+
+        .key-points ul {
+            list-style: none;
+        }
+
+        .key-points ul li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .key-points ul li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .intro-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .intro-section ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .intro-section ul li {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .syntax-example {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #e0e0e0;
+            font-size: 1em;
+            line-height: 1.8;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section-header {
+                padding: 15px 20px;
+            }
+
+            .section-body {
+                padding: 20px;
+            }
+
+            .intro-section {
+                padding: 25px;
+            }
+
+            .code-block {
+                font-size: 0.85em;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 JavaScript Closures</h1>
+            <p>Concepts & Solutions from LeetCode 30 Days Challenge</p>
+        </header>
+
+        <div class="content">
+            <!-- Introduction Section -->
+            <div class="intro-section">
+                <h2>What is a Closure?</h2>
+                <p>A closure is a function that has access to variables from its outer (enclosing) scope, even after the outer function has finished executing. In simpler terms, a closure "remembers" the environment in which it was created.</p>
+
+                <h3 style="margin-top: 25px; margin-bottom: 15px;">Key Characteristics:</h3>
+                <ul>
+                    <li>✅ Created when a function is defined inside another function</li>
+                    <li>✅ Inner function accesses its own variables</li>
+                    <li>✅ Inner function accesses outer function's variables</li>
+                    <li>✅ Inner function accesses global variables</li>
+                    <li>✅ Retains access after outer function returns</li>
+                </ul>
+
+                <h3 style="margin-top: 25px; margin-bottom: 15px;">Why Closures are Useful:</h3>
+                <ul>
+                    <li>📦 Data encapsulation and privacy</li>
+                    <li>🏭 Function factories</li>
+                    <li>⏱️ Maintaining state in async operations</li>
+                    <li>🧩 Creating modules and revealing patterns</li>
+                    <li>🔄 Implementing currying and partial application</li>
+                </ul>
+
+                <div class="syntax-example">
+<strong>Basic Syntax Example:</strong>
+
+<span class="keyword">function</span> <span class="function">outer</span>() {
+    <span class="keyword">let</span> <span class="variable">count</span> = <span class="number">0</span>;
+    <span class="keyword">function</span> <span class="function">inner</span>() {
+        <span class="variable">count</span>++;
+        <span class="keyword">return</span> <span class="variable">count</span>;
+    }
+    <span class="keyword">return</span> <span class="function">inner</span>;
+}
+
+<span class="keyword">const</span> <span class="variable">counter</span> = <span class="function">outer</span>();
+<span class="function">counter</span>(); <span class="comment">// 1</span>
+<span class="function">counter</span>(); <span class="comment">// 2</span></div>
+            </div>
+
+            <!-- Problem 1 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="problem-number">Problem 1</span>
+                    <h2>2667. Create Hello World Function</h2>
+                </div>
+                <div class="section-body">
+                    <div class="concept-box">
+                        <h3>📚 Concepts Covered</h3>
+                        <ul>
+                            <li>Higher-order functions (functions that return functions)</li>
+                            <li>Rest parameters (...args) - collects arguments into an array</li>
+                            <li>Closure pattern for function factories</li>
+                        </ul>
+                    </div>
+
+                    <h3>💻 Solution</h3>
+                    <div class="code-block"><span class="keyword">var</span> <span class="function">createHelloWorld</span> = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">function</span>(...<span class="variable">args</span>) {
+        <span class="keyword">return</span> <span class="string">"Hello World"</span>;
+    }
+};</div>
+
+                    <div class="usage-section">
+                        <h4>▶️ Usage Examples</h4>
+                        <div class="usage-line">const f = createHelloWorld();</div><br>
+                        <div class="usage-line">f();                    // "Hello World"</div><br>
+                        <div class="usage-line">f({}, null, 42);        // "Hello World" (arguments ignored)</div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <h4>🔍 Explanation</h4>
+                        <p>• <code>createHelloWorld()</code> is the outer function that runs <strong>once</strong></p>
+                        <p>• It returns an inner function that uses <code>...args</code> (rest parameter)</p>
+                        <p>• The inner function always returns "Hello World" regardless of arguments</p>
+                        <p>• This demonstrates a <strong>function factory</strong> pattern</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 2 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="problem-number">Problem 2</span>
+                    <h2>2620. Counter</h2>
+                </div>
+                <div class="section-body">
+                    <div class="concept-box">
+                        <h3>📚 Concepts Covered</h3>
+                        <ul>
+                            <li>Closure with state persistence</li>
+                            <li>Maintaining mutable state between function calls</li>
+                            <li>Outer function runs once, inner function runs on every call</li>
+                        </ul>
+                    </div>
+
+                    <h3>💻 Solution</h3>
+                    <div class="code-block"><span class="keyword">var</span> <span class="function">createCounter</span> = <span class="keyword">function</span>(<span class="variable">n</span>) {
+    <span class="keyword">return</span> <span class="keyword">function</span>() {
+        <span class="variable">n</span> = <span class="variable">n</span> + <span class="number">1</span>;
+        <span class="keyword">return</span> <span class="variable">n</span> - <span class="number">1</span>;
+    };
+};</div>
+
+                    <div class="usage-section">
+                        <h4>▶️ Usage Examples</h4>
+                        <div class="usage-line">const counter = createCounter(10);</div><br>
+                        <div class="usage-line">counter();    // 10  (n becomes 11)</div><br>
+                        <div class="usage-line">counter();    // 11  (n becomes 12)</div><br>
+                        <div class="usage-line">counter();    // 12  (n becomes 13)</div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <h4>🔍 Explanation</h4>
+                        <p>• <code>createCounter(10)</code> stores <code>n = 10</code> inside the closure</p>
+                        <p>• Each call to <code>counter()</code> increments n and returns the previous value</p>
+                        <p>• The variable <code>n</code> persists between calls because of the closure</p>
+                        <p>• <strong>Outer function</strong> = setup (runs once)</p>
+                        <p>• <strong>Inner function</strong> = execution (runs every call)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 3 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="problem-number">Problem 3</span>
+                    <h2>2704. To Be Or Not To Be</h2>
+                </div>
+                <div class="section-body">
+                    <div class="concept-box">
+                        <h3>📚 Concepts Covered</h3>
+                        <ul>
+                            <li>Returning objects with methods from closures</li>
+                            <li>Methods accessing outer scope via closure</li>
+                            <li>Strict equality (===) vs loose equality (==)</li>
+                        </ul>
+                    </div>
+
+                    <h3>💻 Solution</h3>
+                    <div class="code-block"><span class="keyword">var</span> <span class="function">expect</span> = <span class="keyword">function</span>(<span class="variable">val</span>) {
+    <span class="keyword">return</span> {
+        <span class="function">toBe</span>: <span class="keyword">function</span>(<span class="variable">insideVal</span>) {
+            <span class="keyword">if</span> (<span class="variable">val</span> === <span class="variable">insideVal</span>) <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">"Not Equal"</span>);
+        },
+        <span class="function">notToBe</span>: <span class="keyword">function</span>(<span class="variable">insideVal</span>) {
+            <span class="keyword">if</span> (<span class="variable">val</span> !== <span class="variable">insideVal</span>) <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="function">Error</span>(<span class="string">"Equal"</span>);
+        }
+    };
+};</div>
+
+                    <div class="usage-section">
+                        <h4>▶️ Usage Examples</h4>
+                        <div class="usage-line">expect(5).toBe(5);       // true</div><br>
+                        <div class="usage-line">expect(5).notToBe(5);  // throws "Equal"</div><br>
+                        <div class="usage-line">expect(5).toBe("5");   // throws "Not Equal" (strict comparison)</div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <h4>🔍 Explanation</h4>
+                        <p>• <code>expect(val)</code> creates an object with two methods</p>
+                        <p>• Both <code>toBe()</code> and <code>notToBe()</code> use closure to access <code>val</code></p>
+                        <p>• Uses <strong>strict equality</strong> (===, !==) for type-safe comparisons</p>
+                        <p>• This pattern is commonly used in testing frameworks like Jest</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem 4 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="problem-number">Problem 4</span>
+                    <h2>2665. Counter II</h2>
+                </div>
+                <div class="section-body">
+                    <div class="concept-box">
+                        <h3>📚 Concepts Covered</h3>
+                        <ul>
+                            <li>Multiple methods sharing state via closure</li>
+                            <li>Using 'let' for mutable state</li>
+                            <li>Object methods with increment, decrement, and reset</li>
+                        </ul>
+                    </div>
+
+                    <h3>💻 Solution</h3>
+                    <div class="code-block"><span class="keyword">var</span> <span class="function">createCounter</span> = <span class="keyword">function</span>(<span class="variable">init</span>) {
+    <span class="keyword">let</span> <span class="variable">cur</span> = <span class="variable">init</span>;
+    <span class="keyword">return</span> {
+        <span class="function">increment</span>: <span class="keyword">function</span>() {
+            <span class="variable">cur</span> = <span class="variable">cur</span> + <span class="number">1</span>;
+            <span class="keyword">return</span> <span class="variable">cur</span>;
+        },
+        <span class="function">decrement</span>: <span class="keyword">function</span>() {
+            <span class="variable">cur</span> = <span class="variable">cur</span> - <span class="number">1</span>;
+            <span class="keyword">return</span> <span class="variable">cur</span>;
+        },
+        <span class="function">reset</span>: <span class="keyword">function</span>() {
+            <span class="variable">cur</span> = <span class="variable">init</span>;
+            <span class="keyword">return</span> <span class="variable">cur</span>;
+        }
+    };
+};</div>
+
+                    <div class="usage-section">
+                        <h4>▶️ Usage Examples</h4>
+                        <div class="usage-line">const counter = createCounter(5);</div><br>
+                        <div class="usage-line">counter.increment();    // 6</div><br>
+                        <div class="usage-line">counter.increment();    // 7</div><br>
+                        <div class="usage-line">counter.decrement();    // 6</div><br>
+                        <div class="usage-line">counter.reset();        // 5</div><br>
+                        <div class="usage-line">counter.decrement();    // 4</div>
+                    </div>
+
+                    <div class="explanation-box">
+                        <h4>🔍 Explanation</h4>
+                        <p>• <code>createCounter(init)</code> stores values in closure</p>
+                        <p>• All three methods share access to the same <code>cur</code> variable</p>
+                        <p>• <code>increment()</code> and <code>decrement()</code> modify the state</p>
+                        <p>• <code>reset()</code> restores the original value from <code>init</code></p>
+                    </div>
+
+                    <div class="key-points">
+                        <h4>💡 Key Points: var vs let vs const</h4>
+                        <ul>
+                            <li><strong>var</strong> → old, unsafe, function scoped (avoid ❌)</li>
+                            <li><strong>let</strong> → modern, block scoped, mutable (use for changing values ✔️)</li>
+                            <li><strong>const</strong> → modern, block scoped, immutable reference (use for fixed references ✔️)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>JavaScript Closures - LeetCode 30 Days Challenge</p>
+            <p style="margin-top: 10px; opacity: 0.7;">Created for educational purposes</p>
+        </footer>
+    </div>
+</body>
+</html>
