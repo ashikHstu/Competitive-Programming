@@ -13,6 +13,7 @@
 using namespace std;
 #define limit 100000001
 int prime_chek[limit + 1], primes[50000000], total_primes;
+
 void sieve_and_store_primes()
 {
     int sqn = sqrt(limit) + 1;
@@ -44,6 +45,7 @@ void sieve_and_store_primes()
         }
     }
 }
+
 int main()
 {
     sieve_and_store_primes();
@@ -52,7 +54,6 @@ int main()
     cin >> q;
     for (int i = 0; i < q; i++)
     {
-
         int ask;
         cin >> ask;
         ask--;
