@@ -2,7 +2,7 @@
 /*
       Institution : Hajee Mohammad Danesh Science and Technology University,Dinajpur,Bangladesh.
       Name        : Ashikur Rahman Bhuyain (Asif)
-      Email       : ashik.cse.hstu@gmail.com
+      Email       : ashik.cse.hstu@gmail.com 
 */
 
 /*
