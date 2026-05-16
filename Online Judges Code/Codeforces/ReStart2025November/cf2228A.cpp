@@ -10,8 +10,12 @@ void solve()
     
     int cnt[3]={0};
     for(int v:vec)cnt[v%3]++;
-
-    cout<<cnt[0]+min(cnt[1],cnt[2])<<endl;
+    int res=cnt[0];
+    int r2=min(cnt[1],cnt[2]);
+    cnt[1]-=r2;
+    cnt[2]-=r2;
+    int r3=(cnt[1]/3) + (cnt[2]/3);
+    cout<<res+r2+r3<<endl;
    
 
 }
