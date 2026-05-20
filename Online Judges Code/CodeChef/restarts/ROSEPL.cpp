@@ -5,7 +5,6 @@ using namespace std;
 int KoitaPossible(int nibo, int K,int M)
 {
     int possible=(M+1)/(K+1);
-   // cout<<"possible, nibo: "<<nibo<<", "<<possible<<endl;
     return min(possible,nibo);
 }
 
@@ -18,14 +17,12 @@ void solve()
 {
     int N,M,K;
     cin>>N>>M>>K;
-    //priority_queue<int>pq;
     vector<int>vec;
     for(int i=0;i<N;i++)
     {
         int a;
         cin>>a;
         vec.push_back(a);
-       // pq.push(a);
     }
 
     sort(vec.begin(),vec.end());
@@ -39,13 +36,12 @@ void solve()
         {
             int nibo=vec[i]/K;
             int koitaPossible=KoitaPossible(nibo,K,M);
-           // cout<<"nibo, koita possible: "<<nibo<<", "<<koitaPossible<<endl;
             res+=(koitaPossible*K);
             M-=(koitaPossible*(K+1));
             vec[i]-=(koitaPossible*K);
         }
     }
-   // cout<<"M, res: "<<M<<", "<<res<<endl;
+
     sort(vec.begin(),vec.end());
     reverse(vec.begin(),vec.end());
 
@@ -58,29 +54,13 @@ void solve()
 
     }
 
-    // while(true)
-    // {
-    //     int rose=pq.top();
-    //     //cout<<"rose: "<<rose<<endl;
-    //     pq.pop();
-
-    //     int take=min(K,rose);
-    //     take=min(take,M);
-    //     if(take<=0)break;
-    //     //cout<<"rose, take: "<<rose<<", "<<take<<endl;
-    //     rose-=take;
-    //     res+=take;
-    //     M-=take;
-    //     M-=1;
-        
-    //     pq.push(rose);
-    // }
     cout<<res<<endl;
-    
 }
 
 int32_t main()
 {
     int tc;cin>>tc;
     while(tc--)solve();
+
+    return 0;
 }
