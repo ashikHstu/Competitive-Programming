@@ -7,8 +7,7 @@ void solve()
     cin>>n;
     vector<int>vec(n);
     for(int &v:vec)cin>>v;
-    sort(vec.begin(),vec.end());
-    reverse(vec.begin(),vec.end());
+    sort(vec.rbegin(),vec.rend());
 
    for(int i=2;i<n;i++)
    {
