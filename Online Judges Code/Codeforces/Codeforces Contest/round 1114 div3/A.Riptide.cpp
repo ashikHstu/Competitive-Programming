@@ -4,9 +4,12 @@ using namespace std;
 
 void solve()
 {
-    int a,b,c;cin>>a>>b>>c;
-    int s=(a+b+c)/3;
-    int d=abs(a-s)+abs(b-s)+abs(c-s);
+    vector<int>vec(3);
+    for(int &v:vec)cin>>v;
+    sort(vec.begin(),vec.end());
+
+    int r=min(abs(vec[1]-vec[0]),vec[2]-vec[1]);
+    cout<<r<<endl;
 }
 
 int main()
